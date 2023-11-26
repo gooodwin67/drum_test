@@ -33,19 +33,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final player = AudioPlayer();
-  //int rate = ((60000 / 54 * (1 / 4)) * 1000).round();
-  int rate = (60000 / 50).round();
 
-  void _playTic() async {
-    player.play(AssetSource('sounds/tic.mp3'));
+  int rate = (60000 / 80).round();
+  int inc = 0;
+  int incTic = 4;
+
+  List colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+
+  void _playTic() {
+    if (incTic % 4 == 0) {
+      inc = 0;
+      player.play(AssetSource('sounds/tic0.mp3'));
+    } else {
+      player.play(AssetSource('sounds/tic5.mp3'));
+    }
+
     Future.delayed(Duration(milliseconds: rate), () {
       _playTic();
+      incTic++;
+      colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+      setState(() {
+        colors[inc] = Colors.red;
+      });
+
+      inc++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(rate);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -60,22 +76,38 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 width: 70,
                 height: 150,
-                color: Colors.red,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  color: colors[0],
+                ),
+                child: Image.asset('assets/notes/nota1.jpg'),
               ),
               Container(
                 width: 70,
                 height: 150,
-                color: Colors.red,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  color: colors[1],
+                ),
+                child: Image.asset('assets/notes/nota1.jpg'),
               ),
               Container(
                 width: 70,
                 height: 150,
-                color: Colors.red,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  color: colors[2],
+                ),
+                child: Image.asset('assets/notes/nota1.jpg'),
               ),
               Container(
                 width: 70,
                 height: 150,
-                color: Colors.red,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  color: colors[3],
+                ),
+                child: Image.asset('assets/notes/nota1.jpg'),
               ),
             ],
           ),
