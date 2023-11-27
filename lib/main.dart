@@ -33,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final player = AudioPlayer();
+  bool playing = false;
 
   int rate = (60000 / 80).round();
   int inc = 0;
@@ -41,23 +42,35 @@ class _MyHomePageState extends State<MyHomePage> {
   List colors = [Colors.white, Colors.white, Colors.white, Colors.white];
 
   void _playTic() {
-    if (incTic % 4 == 0) {
-      inc = 0;
-      player.play(AssetSource('sounds/tic0.mp3'));
-    } else {
-      player.play(AssetSource('sounds/tic5.mp3'));
-    }
+    if (playing == true) {
+      if (incTic % 4 == 0) {
+        inc = 0;
+        player.play(AssetSource('sounds/tic0.mp3'));
+        incTic++;
+      } else {
+        player.play(AssetSource('sounds/tic5.mp3'));
+        incTic++;
+      }
 
-    Future.delayed(Duration(milliseconds: rate), () {
-      _playTic();
-      incTic++;
-      colors = [Colors.white, Colors.white, Colors.white, Colors.white];
-      setState(() {
-        colors[inc] = Colors.red;
+      Future.delayed(Duration(milliseconds: rate), () {
+        if (playing == true) {
+          _playTic();
+
+          colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+          setState(() {
+            colors[inc] = Colors.red;
+          });
+
+          inc++;
+        }
       });
-
-      inc++;
-    });
+    } else {
+      setState(() {
+        inc = 0;
+        incTic = 4;
+        colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+      });
+    }
   }
 
   @override
@@ -129,7 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _playTic,
+        enableFeedback: false,
+        onPressed: () {
+          playing ? playing = false : playing = true;
+          _playTic();
+        },
         child: const Icon(Icons.play_arrow),
       ), //
     );
