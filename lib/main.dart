@@ -45,10 +45,10 @@ class _MyHomePageState extends State<MyHomePage> {
     if (playing == true) {
       if (incTic % 4 == 0) {
         inc = 0;
-        player.play(AssetSource('sounds/tic0.mp3'));
+        player.play(AssetSource('sounds/tic9.mp3'));
         incTic++;
       } else {
-        player.play(AssetSource('sounds/tic5.mp3'));
+        player.play(AssetSource('sounds/tic0.mp3'));
         incTic++;
       }
 
