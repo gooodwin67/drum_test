@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+//https://github.com/sintakt/sintakt.github.io/blob/master/lib/src/click_player/click_player.dart
+
 void main() {
   runApp(const MyApp());
 }
@@ -43,18 +45,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _playTic() {
     if (playing == true) {
-      if (incTic % 4 == 0) {
-        inc = 0;
-        player.play(AssetSource('sounds/tic9.mp3'));
-        incTic++;
-      } else {
-        player.play(AssetSource('sounds/tic0.mp3'));
-        incTic++;
-      }
-
       Future.delayed(Duration(milliseconds: rate), () {
         if (playing == true) {
           _playTic();
+
+          if (incTic % 4 == 0) {
+            inc = 0;
+            player.play(AssetSource('sounds/tic9.WAV'));
+            incTic++;
+          } else {
+            player.play(AssetSource('sounds/tic9.WAV'));
+            incTic++;
+          }
 
           colors = [Colors.white, Colors.white, Colors.white, Colors.white];
           setState(() {
@@ -129,8 +131,9 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(10.0),
             child: InkWell(
               enableFeedback: false,
-              onTap: () async {
+              onTap: () {
                 //await player.play(AssetSource('sounds/tic.mp3'));
+                player.play(AssetSource('sounds/tic9.WAV'));
               },
               child: Container(
                 color: Colors.green,
