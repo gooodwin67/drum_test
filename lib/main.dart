@@ -51,10 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
           if (incTic % 4 == 0) {
             inc = 0;
-            player.play(AssetSource('sounds/tic9.WAV'));
+            player.play(AssetSource('sounds/tic10.WAV'));
             incTic++;
           } else {
-            player.play(AssetSource('sounds/tic9.WAV'));
+            player.play(AssetSource('sounds/tic10.WAV'));
             incTic++;
           }
 
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
               enableFeedback: false,
               onTap: () {
                 //await player.play(AssetSource('sounds/tic.mp3'));
-                player.play(AssetSource('sounds/tic9.WAV'));
+                //player.play(AssetSource('sounds/tic10.WAV'));
               },
               child: Container(
                 color: Colors.green,
