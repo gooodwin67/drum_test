@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -44,11 +45,12 @@ class _MyHomePageState extends State<MyHomePage> {
   double bpm = 80;
 
   int rate = (60000 / 80).round();
-  int inc = 0;
-  int incTic = 4;
+  int incTic = 0;
   int level = 0;
 
-  List colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+  Timer? timer;
+
+  List colors = [Colors.red, Colors.grey, Colors.grey, Colors.grey];
 
   List notesList = [
     Image.asset('assets/notes/nota1.jpg'),
@@ -71,60 +73,114 @@ class _MyHomePageState extends State<MyHomePage> {
     [1, 1, 3, 1],
     [1, 1, 1, 1],
   ];
-
   void _playTic() {
+    if (playing == true) {
+      if (incTic < 4) {
+        incTic++;
+      } else {
+        incTic = 1;
+        if (level < levelsList.length - 1) {
+          level++;
+        } else {
+          //Random().nextInt(3) + 1
+          levelsList.add(levelsList.last);
+          levelsList.last[Random().nextInt(3) + 1] = Random().nextInt(3) + 1;
+          level++;
+        }
+      }
+      if (incTic == 1) {
+        player.play(AssetSource('sounds/tic0.WAV'));
+      } else {
+        player.play(AssetSource('sounds/tic11.WAV'));
+      }
+
+      colors.fillRange(0, 4, Colors.grey);
+      colors[incTic - 1] = Colors.red;
+
+      setState(() {});
+    }
+  }
+
+  void plaingNow() {
+    if (!playing) {
+      rate = (60000 / bpm).round();
+      timer =
+          Timer.periodic(Duration(milliseconds: rate), (Timer t) => _playTic());
+      playing = true;
+    } else {
+      timer?.cancel();
+      playing = false;
+      incTic = 0;
+      colors.fillRange(0, 4, Colors.grey);
+      colors[0] = Colors.red;
+      level = 0;
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+/*
+  void _playTic() {
+    //player.setPlayerMode(PlayerMode.lowLatency);
     rate = (60000 / bpm).round();
     if (playing == true) {
       Future.delayed(Duration(milliseconds: rate), () {
         if (playing == true) {
-          _playTic();
+          player.play(AssetSource('sounds/tic9.WAV'));
+          incTic++;
+          inc++;
+          print(inc);
 
-          if (incTic % 4 == 0) {
-            inc = 0;
-            player.play(AssetSource('sounds/tic9.WAV'));
-            incTic++;
-
-            if (level < levelsList.length - 1) {
+          if (level < levelsList.length - 1) {
+            if (incTic % 4 == 0) {
               level++;
-            } else {
-              int note2 = Random().nextInt(3) + 1;
-              int note3 = Random().nextInt(3) + 1;
-              int note4 = Random().nextInt(3) + 1;
-
-              levelsList[levelsList.length - 2][0] = 1;
-              levelsList[levelsList.length - 2][1] = note2;
-              levelsList[levelsList.length - 2][2] = note3;
-              levelsList[levelsList.length - 2][3] = note4;
-
-              levelsList[levelsList.length - 1][0] = 1;
-              levelsList[levelsList.length - 1][1] = note2;
-              levelsList[levelsList.length - 1][2] = note3;
-              levelsList[levelsList.length - 1][3] = note4;
-              level--;
+              inc = 0;
             }
           } else {
-            player.play(AssetSource('sounds/tic9.WAV'));
-            incTic++;
+            int note2 = Random().nextInt(3) + 1;
+            int note3 = Random().nextInt(3) + 1;
+            int note4 = Random().nextInt(3) + 1;
+
+            levelsList[levelsList.length - 2][0] = 1;
+            levelsList[levelsList.length - 2][1] = note2;
+            levelsList[levelsList.length - 2][2] = note3;
+            levelsList[levelsList.length - 2][3] = note4;
+
+            levelsList[levelsList.length - 1][0] = 1;
+            levelsList[levelsList.length - 1][1] = note2;
+            levelsList[levelsList.length - 1][2] = note3;
+            levelsList[levelsList.length - 1][3] = note4;
+            level--;
           }
 
-          colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+          colors = [Colors.grey, Colors.grey, Colors.grey, Colors.grey];
+
           setState(() {
             colors[inc] = Colors.red;
           });
-
-          inc++;
+          _playTic();
         }
       });
     } else {
       setState(() {
         inc = 0;
         incTic = 4;
-        colors = [Colors.white, Colors.white, Colors.white, Colors.white];
+        colors = [Colors.grey, Colors.grey, Colors.grey, Colors.grey];
         level = 0;
       });
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,56 +217,56 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
+                AnimatedContainer(
+                  duration: Duration(milliseconds: rate),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: colors[0],
+                    border: Border.all(color: colors[0], width: 2),
                   ),
                   child: notesList[levelsList[level][0] - 1],
                 ),
-                Container(
+                AnimatedContainer(
+                  duration: Duration(milliseconds: rate),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: colors[1],
+                    border: Border.all(color: colors[1], width: 2),
                   ),
                   child: notesList[levelsList[level][1] - 1],
                 ),
-                Container(
+                AnimatedContainer(
+                  duration: Duration(milliseconds: rate),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: colors[2],
+                    border: Border.all(color: colors[2], width: 2),
                   ),
                   child: notesList[levelsList[level][2] - 1],
                 ),
-                Container(
+                AnimatedContainer(
+                  duration: Duration(milliseconds: rate),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: colors[3],
+                    border: Border.all(color: colors[3], width: 2),
                   ),
                   child: notesList[levelsList[level][3] - 1],
                 ),
               ],
             ),
-            Text(level.toString()),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            Text('level ' + level.toString()),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: InkWell(
-                enableFeedback: false,
-                onTap: () {
-                  //await player.play(AssetSource('sounds/tic.mp3'));
-                  //player.play(AssetSource('sounds/tic10.WAV'));
+                enableFeedback: true,
+                onTapDown: (tap) {
+                  //
                 },
                 child: Container(
-                  color: Colors.green,
+                  color: const Color.fromARGB(148, 76, 175, 79),
                   width: double.infinity,
                   height: 200,
                 ),
@@ -222,10 +278,9 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         enableFeedback: false,
         onPressed: () {
-          playing ? playing = false : playing = true;
-          _playTic();
+          plaingNow();
         },
-        child: const Icon(Icons.play_arrow),
+        child: playing ? Icon(Icons.stop) : Icon(Icons.play_arrow),
       ), //
     );
   }
