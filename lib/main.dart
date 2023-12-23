@@ -17,13 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Drum Rhythm',
+      title: 'Rhythm Challenge',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Drum Rhythm'),
+      home: const MyHomePage(title: 'Rhythm Challenge'),
     );
   }
 }
@@ -39,6 +39,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final player = AudioPlayer();
+  PlayerMode mode = PlayerMode.mediaPlayer;
 
   bool playing = false;
 
@@ -56,22 +57,24 @@ class _MyHomePageState extends State<MyHomePage> {
     Image.asset('assets/notes/nota1.jpg'),
     Image.asset('assets/notes/nota2.jpg'),
     Image.asset('assets/notes/nota3.jpg'),
+    Image.asset('assets/notes/nota4.jpg'),
+    Image.asset('assets/notes/nota0.jpg'),
   ];
 
-  int random = Random().nextInt(3);
+  int random = Random().nextInt(5);
 
   List levelsList = [
     [1, 1, 1, 1],
     [1, 1, 1, 1],
-    [1, 1, 1, 1],
-    [1, 1, 1, 1],
-    [1, 1, 2, 1],
-    [1, 1, 2, 1],
-    [1, 1, 2, 1],
-    [1, 1, 3, 1],
-    [1, 1, 3, 1],
-    [1, 1, 3, 1],
-    [1, 1, 1, 1],
+    // [1, 1, 1, 1],
+    // [1, 1, 1, 1],
+    // [1, 1, 2, 1],
+    // [1, 1, 2, 1],
+    // [1, 1, 2, 1],
+    // [1, 1, 3, 1],
+    // [1, 1, 3, 1],
+    // [1, 1, 3, 1],
+    // [1, 1, 1, 1],
   ];
   void _playTic() {
     if (playing == true) {
@@ -84,14 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
         } else {
           //Random().nextInt(3) + 1
           levelsList.add(levelsList.last);
-          levelsList.last[Random().nextInt(3) + 1] = Random().nextInt(3) + 1;
+          levelsList.last[Random().nextInt(3) + 1] = Random().nextInt(5) + 1;
           level++;
         }
       }
+
       if (incTic == 1) {
         player.play(AssetSource('sounds/tic0.WAV'));
       } else {
-        player.play(AssetSource('sounds/tic11.WAV'));
+        player.play(AssetSource('sounds/tic9.WAV'));
       }
 
       colors.fillRange(0, 4, Colors.grey);
@@ -129,58 +133,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-/*
-  void _playTic() {
-    //player.setPlayerMode(PlayerMode.lowLatency);
-    rate = (60000 / bpm).round();
-    if (playing == true) {
-      Future.delayed(Duration(milliseconds: rate), () {
-        if (playing == true) {
-          player.play(AssetSource('sounds/tic9.WAV'));
-          incTic++;
-          inc++;
-          print(inc);
-
-          if (level < levelsList.length - 1) {
-            if (incTic % 4 == 0) {
-              level++;
-              inc = 0;
-            }
-          } else {
-            int note2 = Random().nextInt(3) + 1;
-            int note3 = Random().nextInt(3) + 1;
-            int note4 = Random().nextInt(3) + 1;
-
-            levelsList[levelsList.length - 2][0] = 1;
-            levelsList[levelsList.length - 2][1] = note2;
-            levelsList[levelsList.length - 2][2] = note3;
-            levelsList[levelsList.length - 2][3] = note4;
-
-            levelsList[levelsList.length - 1][0] = 1;
-            levelsList[levelsList.length - 1][1] = note2;
-            levelsList[levelsList.length - 1][2] = note3;
-            levelsList[levelsList.length - 1][3] = note4;
-            level--;
-          }
-
-          colors = [Colors.grey, Colors.grey, Colors.grey, Colors.grey];
-
-          setState(() {
-            colors[inc] = Colors.red;
-          });
-          _playTic();
-        }
-      });
-    } else {
-      setState(() {
-        inc = 0;
-        incTic = 4;
-        colors = [Colors.grey, Colors.grey, Colors.grey, Colors.grey];
-        level = 0;
-      });
-    }
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(10.0),
               alignment: Alignment.centerLeft,
-              child: Text('BPM'),
+              child: Text('BPM:'),
             ),
             SliderTheme(
               data: SliderThemeData(
@@ -223,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 150,
                   decoration: BoxDecoration(
                     border: Border.all(color: colors[0], width: 2),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                   child: notesList[levelsList[level][0] - 1],
                 ),
@@ -232,6 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 150,
                   decoration: BoxDecoration(
                     border: Border.all(color: colors[1], width: 2),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                   child: notesList[levelsList[level][1] - 1],
                 ),
@@ -241,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 150,
                   decoration: BoxDecoration(
                     border: Border.all(color: colors[2], width: 2),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                   child: notesList[levelsList[level][2] - 1],
                 ),
@@ -250,6 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 150,
                   decoration: BoxDecoration(
                     border: Border.all(color: colors[3], width: 2),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                   child: notesList[levelsList[level][3] - 1],
                 ),
@@ -266,9 +222,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   //
                 },
                 child: Container(
-                  color: const Color.fromARGB(148, 76, 175, 79),
                   width: double.infinity,
                   height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(148, 76, 175, 79),
+                  ),
                 ),
               ),
             ),
