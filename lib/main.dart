@@ -57,8 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Timer? timer;
 
   List colors = [Colors.red, Colors.grey, Colors.grey, Colors.grey];
+  List tapColors = [
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent,
+    Colors.transparent
+  ];
 
-  Color winColor = Colors.blue;
+  Color winColor = Colors.white;
 
   List notesList = [
     Image.asset('assets/notes/nota0.jpg'),
@@ -74,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _playTic() {
     if (playing == true) {
       lastBam = bam;
+
       if (incTic > 0) {
         print(
             'aaaaaaaaaaaaaaaaaaaaaaaaaa ${lastBam} -- ${levelsList[incTic - 1]}');
@@ -83,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         } else {
           setState(() {
-            winColor = Colors.blue;
+            winColor = Colors.white;
           });
         }
       }
@@ -91,6 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
       if (incTic < 4) {
         incTic++;
         bam = 0;
+        tapColors = [
+          Colors.transparent,
+          Colors.transparent,
+          Colors.transparent,
+          Colors.transparent
+        ];
 
         if (level > 1) {
           switch (incTic) {
@@ -122,6 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
         incTic = 1;
         level++;
         bam = 0;
+        tapColors = [
+          Colors.transparent,
+          Colors.transparent,
+          Colors.transparent,
+          Colors.transparent
+        ];
       }
 
       if (incTic == 1) {
@@ -198,88 +217,131 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 0),
-                  width: 70,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colors[0], width: 2),
-                    borderRadius: BorderRadius.circular(7),
+            SizedBox(height: 10),
+            Container(
+              height: MediaQuery.of(context).size.height / 4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    width: 70,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colors[0], width: 2),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: notesList[levelsList[0]],
                   ),
-                  child: notesList[levelsList[0]],
-                ),
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 0),
-                  width: 70,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colors[1], width: 2),
-                    borderRadius: BorderRadius.circular(7),
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    width: 70,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colors[1], width: 2),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: notesList[levelsList[1]],
                   ),
-                  child: notesList[levelsList[1]],
-                ),
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 0),
-                  width: 70,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colors[2], width: 2),
-                    borderRadius: BorderRadius.circular(7),
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    width: 70,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colors[2], width: 2),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: notesList[levelsList[2]],
                   ),
-                  child: notesList[levelsList[2]],
-                ),
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 0),
-                  width: 70,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colors[3], width: 2),
-                    borderRadius: BorderRadius.circular(7),
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    width: 70,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colors[3], width: 2),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: notesList[levelsList[3]],
                   ),
-                  child: notesList[levelsList[3]],
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              height: MediaQuery.of(context).size.height / 3,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 30,
+                          decoration: BoxDecoration(
+                              color: winColor,
+                              border: Border.all(color: Colors.grey)),
+                        ),
+                        Container(
+                            width: 30,
+                            height: 100,
+                            child: ListView.builder(
+                                reverse: true,
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Container(
+                                        width: double.infinity,
+                                        height: 10,
+                                        decoration: BoxDecoration(
+                                          color: tapColors[index],
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                })),
+                      ],
+                    ),
+                    InkWell(
+                      enableFeedback: true,
+                      onTapDown: (tap) {
+                        setState(() {
+                          bam++;
+                          if (bam > 0 && bam < 5) {
+                            setState(() {
+                              tapColors[bam - 1] = Colors.green;
+                            });
+                          }
+                        });
+                        //print('aaa - ${bam}');
+                      },
+                      child: Image.asset(
+                        'assets/images/pad.jpg',
+                        height: 200,
+                      ),
+                    ),
+                    Container(
+                      width: 30,
+                      height: 200,
+                      color: Colors.red,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
             SizedBox(height: 10),
             Text('incTic ' + incTic.toString()),
             Text('level ' + level.toString()),
             Text('lastBam ' + lastBam.toString()),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 30,
-                    height: 200,
-                    color: Colors.red,
-                  ),
-                  InkWell(
-                    enableFeedback: true,
-                    onTapDown: (tap) {
-                      setState(() {
-                        bam++;
-                      });
-                      //print('aaa - ${bam}');
-                    },
-                    child: Image.asset(
-                      'assets/images/pad.jpg',
-                      height: 200,
-                    ),
-                  ),
-                  Container(
-                    width: 30,
-                    height: 200,
-                    color: Colors.red,
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
