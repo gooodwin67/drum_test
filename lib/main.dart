@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int random = Random().nextInt(5);
 
-  List levelsList = [1, 1, 1, 1];
+  List levelsList = [1, 1, 4, 1];
   void _playTic() {
     if (playing == true) {
       lastBam = bam;
@@ -125,9 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       if (incTic == 1) {
-        player.play(AssetSource('sounds/tic0.WAV'));
+        player.play(AssetSource('sounds/tic1n.MP3'));
       } else {
-        player.play(AssetSource('sounds/tic9n.WAV'));
+        player.play(AssetSource('sounds/tic1n.MP3'));
       }
 
       colors.fillRange(0, 4, Colors.grey);
@@ -140,11 +140,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void plaingNow() {
     if (!playing) {
       rate = (60000 / bpm).round();
-      timer =
-          Timer.periodic(Duration(milliseconds: rate), (Timer t) => _playTic());
+      timer = Timer.periodic(
+          Duration(milliseconds: rate + 20), (Timer t) => _playTic());
       playing = true;
     } else {
-      levelsList = [1, 1, 1, 1];
+      levelsList = [1, 1, 4, 1];
       timer?.cancel();
       playing = false;
       incTic = 0;
@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AnimatedContainer(
-                  duration: Duration(milliseconds: rate),
+                  duration: Duration(milliseconds: 0),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
@@ -213,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: notesList[levelsList[0]],
                 ),
                 AnimatedContainer(
-                  duration: Duration(milliseconds: rate),
+                  duration: Duration(milliseconds: 0),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
@@ -223,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: notesList[levelsList[1]],
                 ),
                 AnimatedContainer(
-                  duration: Duration(milliseconds: rate),
+                  duration: Duration(milliseconds: 0),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
@@ -233,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: notesList[levelsList[2]],
                 ),
                 AnimatedContainer(
-                  duration: Duration(milliseconds: rate),
+                  duration: Duration(milliseconds: 0),
                   width: 70,
                   height: 150,
                   decoration: BoxDecoration(
@@ -251,23 +251,33 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: InkWell(
-                enableFeedback: true,
-                onTapDown: (tap) {
-                  setState(() {
-                    bam++;
-                  });
-                  //print('aaa - ${bam}');
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    //color: const Color.fromARGB(148, 76, 175, 79),
-                    color: winColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 30,
+                    height: 200,
+                    color: Colors.red,
                   ),
-                ),
+                  InkWell(
+                    enableFeedback: true,
+                    onTapDown: (tap) {
+                      setState(() {
+                        bam++;
+                      });
+                      //print('aaa - ${bam}');
+                    },
+                    child: Image.asset(
+                      'assets/images/pad.jpg',
+                      height: 200,
+                    ),
+                  ),
+                  Container(
+                    width: 30,
+                    height: 200,
+                    color: Colors.red,
+                  ),
+                ],
               ),
             ),
           ],
