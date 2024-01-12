@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
+
+import 'package:soundpool/soundpool.dart';
 
 //https://github.com/sintakt/sintakt.github.io/blob/master/lib/src/click_player/click_player.dart
 
@@ -38,6 +42,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Soundpool pool = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
+  Soundpool pool2 = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
+  int soundId = 0;
+  int soundId2 = 0;
+  loadSound() async {
+    soundId = await rootBundle
+        .load("assets/sounds/tic0n.WAV")
+        .then((ByteData soundData) {
+      return pool.load(soundData);
+    });
+    soundId2 = await rootBundle
+        .load("assets/sounds/tic9n.WAV")
+        .then((ByteData soundData) {
+      return pool2.load(soundData);
+    });
+  }
+
   final player = AudioPlayer();
   PlayerMode mode = PlayerMode.mediaPlayer;
 
@@ -144,10 +165,13 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       if (incTic == 1) {
-        player.play(AssetSource('sounds/tic1n.MP3'));
+        //player.play(AssetSource('sounds/tic1n.MP3'));
+        pool.play(soundId);
       } else {
-        player.play(AssetSource('sounds/tic1n.MP3'));
+        //player.play(AssetSource('sounds/tic1n.MP3'));
+        pool2.play(soundId2);
       }
+      //pool.play(soundId);
 
       colors.fillRange(0, 4, Colors.grey);
       colors[incTic - 1] = Colors.red;
@@ -159,8 +183,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void plaingNow() {
     if (!playing) {
       rate = (60000 / bpm).round();
-      timer = Timer.periodic(
-          Duration(milliseconds: rate + 20), (Timer t) => _playTic());
+      timer =
+          Timer.periodic(Duration(milliseconds: rate), (Timer t) => _playTic());
       playing = true;
     } else {
       levelsList = [1, 1, 4, 1];
@@ -176,6 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    loadSound();
     super.initState();
   }
 
@@ -207,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Slider(
                 min: 50,
-                max: 130,
+                max: 330,
                 value: bpm,
                 label: bpm.round().toString(),
                 onChanged: (double value) {
@@ -332,7 +357,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                       width: 30,
                       height: 200,
-                      color: Colors.red,
+                      //color: Colors.red,
                     ),
                   ],
                 ),
