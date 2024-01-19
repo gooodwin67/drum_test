@@ -4,9 +4,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import 'package:soundpool/soundpool.dart';
+import 'package:wakelock/wakelock.dart';
 
 //https://github.com/sintakt/sintakt.github.io/blob/master/lib/src/click_player/click_player.dart
 
@@ -70,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int incTic = 0;
   int level = 0;
 
-  int difficulty = 3; //1-3
+  int difficulty = 1; //1-3 Частота смены нот
 
   int bam = 0;
   int lastBam = 0;
@@ -95,23 +97,24 @@ class _MyHomePageState extends State<MyHomePage> {
     Image.asset('assets/notes/nota4.jpg'),
   ];
 
+  List noteCanList = [0, 1, 2, 3, 4];
+  List noteActive = [true, true, true, true, true];
+
   int random = Random().nextInt(5);
 
-  List levelsList = [1, 1, 4, 1];
+  List levelsList = [0, 0, 0, 0];
   void _playTic() {
     if (playing == true) {
       lastBam = bam;
 
       if (incTic > 0) {
-        print(
-            'aaaaaaaaaaaaaaaaaaaaaaaaaa ${lastBam} -- ${levelsList[incTic - 1]}');
         if (lastBam == levelsList[incTic - 1]) {
           setState(() {
             winColor = Colors.green;
           });
         } else {
           setState(() {
-            winColor = Colors.white;
+            winColor = Colors.red;
           });
         }
       }
@@ -125,33 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
           Colors.transparent,
           Colors.transparent
         ];
-
-        if (level > 1) {
-          switch (incTic) {
-            case 1:
-              Random().nextInt(3 - difficulty + 2) == 1
-                  ? levelsList[2] = Random().nextInt(5)
-                  : levelsList[2] = levelsList[2];
-              break;
-            case 2:
-              Random().nextInt(3 - difficulty + 2) == 1
-                  ? levelsList[3] = Random().nextInt(5)
-                  : levelsList[3] = levelsList[3];
-              break;
-            case 3:
-              Random().nextInt(3 - difficulty + 2) == 1
-                  ? levelsList[0] = Random().nextInt(5)
-                  : levelsList[0] = levelsList[0];
-              break;
-            case 4:
-              Random().nextInt(3 - difficulty + 2) == 1
-                  ? levelsList[1] = Random().nextInt(5)
-                  : levelsList[1] = levelsList[1];
-              break;
-            default:
-          }
-          setState(() {});
-        }
       } else {
         incTic = 1;
         level++;
@@ -164,14 +140,42 @@ class _MyHomePageState extends State<MyHomePage> {
         ];
       }
 
+      if (level > 1) {
+        switch (incTic) {
+          case 1:
+            Random().nextInt(3 - difficulty + 2) == 1
+                ? levelsList[2] =
+                    noteCanList[Random().nextInt(noteCanList.length)]
+                : levelsList[2] = levelsList[2];
+            break;
+          case 2:
+            Random().nextInt(3 - difficulty + 2) == 1
+                ? levelsList[3] =
+                    noteCanList[Random().nextInt(noteCanList.length)]
+                : levelsList[3] = levelsList[3];
+            break;
+          case 3:
+            Random().nextInt(3 - difficulty + 2) == 1
+                ? levelsList[0] =
+                    noteCanList[Random().nextInt(noteCanList.length)]
+                : levelsList[0] = levelsList[0];
+            break;
+          case 4:
+            Random().nextInt(3 - difficulty + 2) == 1
+                ? levelsList[1] =
+                    noteCanList[Random().nextInt(noteCanList.length)]
+                : levelsList[1] = levelsList[1];
+            break;
+          default:
+        }
+        setState(() {});
+      }
+
       if (incTic == 1) {
-        //player.play(AssetSource('sounds/tic1n.MP3'));
         pool.play(soundId);
       } else {
-        //player.play(AssetSource('sounds/tic1n.MP3'));
         pool2.play(soundId2);
       }
-      //pool.play(soundId);
 
       colors.fillRange(0, 4, Colors.grey);
       colors[incTic - 1] = Colors.red;
@@ -182,12 +186,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void plaingNow() {
     if (!playing) {
+      Wakelock.enable();
+      noteCanList = [];
+      for (int i = 0; i < noteActive.length; i++) {
+        if (noteActive[i]) {
+          noteCanList.add(i);
+        }
+      }
+
       rate = (60000 / bpm).round();
       timer =
           Timer.periodic(Duration(milliseconds: rate), (Timer t) => _playTic());
       playing = true;
+      setState(() {});
     } else {
-      levelsList = [1, 1, 4, 1];
+      Wakelock.disable();
+      levelsList = [0, 0, 0, 0];
       timer?.cancel();
       playing = false;
       incTic = 0;
@@ -221,26 +235,183 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              alignment: Alignment.centerLeft,
-              child: Text('BPM: ${bpm.round()}'),
-            ),
-            SliderTheme(
-              data: SliderThemeData(
-                showValueIndicator: ShowValueIndicator.onlyForContinuous,
-              ),
-              child: Slider(
-                min: 50,
-                max: 330,
-                value: bpm,
-                label: bpm.round().toString(),
-                onChanged: (double value) {
-                  setState(() {
-                    bpm = value;
-                  });
-                },
-              ),
+            AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                );
+              },
+              child: !playing
+                  ? Container(
+                      key: Key('showMenu'),
+                      padding: const EdgeInsets.all(10.0),
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('BPM: ${bpm.round()}'),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SliderTheme(
+                              data: SliderThemeData(
+                                overlayShape: SliderComponentShape.noThumb,
+                                showValueIndicator: ShowValueIndicator.always,
+                              ),
+                              child: Slider(
+                                min: 50,
+                                max: 330,
+                                value: bpm,
+                                label: bpm.round().toString(),
+                                onChanged: (double value) {
+                                  setState(() {
+                                    bpm = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                              'Сложность (частота смены нот): ${difficulty.round()}'),
+                          Container(
+                            width: 100,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: SliderTheme(
+                                data: SliderThemeData(
+                                  overlayShape: SliderComponentShape.noThumb,
+                                  showValueIndicator: ShowValueIndicator.always,
+                                ),
+                                child: Slider(
+                                  min: 1,
+                                  max: 3,
+                                  value: difficulty.toDouble(),
+                                  label: difficulty.round().toString(),
+                                  onChanged: (double value) {
+                                    setState(() {
+                                      difficulty = value.toInt();
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Используемые ноты'),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            height: 10,
+                                            child: Checkbox(
+                                                value: noteActive[0],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    noteActive[0] = value;
+                                                  });
+                                                }),
+                                          ),
+                                          Text('0'),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            height: 10,
+                                            child: Checkbox(
+                                                value: noteActive[1],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    noteActive[1] = value;
+                                                  });
+                                                }),
+                                          ),
+                                          Text('1'),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            height: 10,
+                                            child: Checkbox(
+                                                value: noteActive[2],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    noteActive[2] = value;
+                                                  });
+                                                }),
+                                          ),
+                                          Text('2'),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            height: 10,
+                                            child: Checkbox(
+                                                value: noteActive[3],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    noteActive[3] = value;
+                                                  });
+                                                }),
+                                          ),
+                                          Text('3'),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 30,
+                                            height: 10,
+                                            child: Checkbox(
+                                                value: noteActive[4],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    noteActive[4] = value;
+                                                  });
+                                                }),
+                                          ),
+                                          Text('4'),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(
+                      key: Key('hideMenu'),
+                    ),
             ),
             SizedBox(height: 10),
             Container(
@@ -303,15 +474,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
-                          height: 50,
+                          height: 30,
                           width: 30,
                           decoration: BoxDecoration(
                               color: winColor,
+                              borderRadius: BorderRadius.circular(50),
                               border: Border.all(color: Colors.grey)),
                         ),
                         Container(
                             width: 30,
-                            height: 100,
+                            height: 90,
                             child: ListView.builder(
                                 reverse: true,
                                 itemCount: 4,
@@ -336,23 +508,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                 })),
                       ],
                     ),
-                    InkWell(
-                      enableFeedback: true,
-                      onTapDown: (tap) {
-                        setState(() {
-                          bam++;
-                          if (bam > 0 && bam < 5) {
-                            setState(() {
-                              tapColors[bam - 1] = Colors.green;
-                            });
-                          }
-                        });
-                        //print('aaa - ${bam}');
-                      },
-                      child: Image.asset(
-                        'assets/images/pad.jpg',
-                        height: 200,
-                      ),
+                    Stack(
+                      children: [
+                        Image.asset(
+                          'assets/images/pad.jpg',
+                          height: 200,
+                        ),
+                        Positioned.fill(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              splashColor:
+                                  const Color.fromARGB(10, 255, 255, 255),
+                              enableFeedback: true,
+                              onTapDown: (tap) {
+                                setState(() {
+                                  bam++;
+                                  if (bam > 0 && bam < 5) {
+                                    setState(() {
+                                      tapColors[bam - 1] = Colors.green;
+                                    });
+                                  }
+                                });
+                                //print('aaa - ${bam}');
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       width: 30,
