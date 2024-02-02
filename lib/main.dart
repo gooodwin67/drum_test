@@ -2,6 +2,7 @@
 
 import 'package:drum_test/free.dart';
 import 'package:drum_test/game.dart';
+import 'package:drum_test/tutorial.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -52,10 +53,22 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: const EdgeInsets.all(60),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TutorialScreen()));
+              },
+              child: Text('Tutorial'),
+            ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
