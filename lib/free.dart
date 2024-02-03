@@ -7,7 +7,7 @@ class FreeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: PlayerWidget(showOptions: true),
+      body: PlayerWidget(),
     );
   }
 }

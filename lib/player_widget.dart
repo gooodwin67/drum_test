@@ -8,8 +8,7 @@ import 'package:soundpool/soundpool.dart';
 import 'package:wakelock/wakelock.dart';
 
 class PlayerWidget extends StatefulWidget {
-  const PlayerWidget({super.key, required this.showOptions});
-  final bool showOptions;
+  const PlayerWidget({super.key});
 
   @override
   State<PlayerWidget> createState() => _PlayerWidgetState();
@@ -215,7 +214,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   child: child,
                 );
               },
-              child: !playing && widget.showOptions
+              child: !playing
                   ? Container(
                       key: Key('showMenu'),
                       padding: const EdgeInsets.all(10.0),

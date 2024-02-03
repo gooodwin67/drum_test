@@ -1,7 +1,9 @@
+import 'package:drum_test/games/easy_level.dart';
+import 'package:drum_test/games/hard_level.dart';
 import 'package:flutter/material.dart';
 
-class GameScreen extends StatelessWidget {
-  const GameScreen({super.key});
+class SelectGameScreen extends StatelessWidget {
+  const SelectGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,12 @@ class GameScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EasyScreen()));
+                    },
                     child: Container(
                       width: 100,
                       height: 100,
@@ -30,12 +37,20 @@ class GameScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 20),
-                  Container(
-                    width: 100,
-                    height: 100,
-                    color: const Color.fromARGB(255, 223, 223, 223),
-                    alignment: Alignment.center,
-                    child: Text('Продвинутый уровень'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HardScreen()));
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      color: const Color.fromARGB(255, 223, 223, 223),
+                      alignment: Alignment.center,
+                      child: Text('Продвинутый уровень'),
+                    ),
                   )
                 ],
               ),

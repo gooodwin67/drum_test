@@ -84,7 +84,7 @@ class MenuScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const GameScreen()));
+                        builder: (context) => const SelectGameScreen()));
               },
               child: Text('GAME Rhytm Challenge'),
             ),
