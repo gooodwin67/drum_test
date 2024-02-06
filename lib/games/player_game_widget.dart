@@ -19,6 +19,7 @@ class PlayerGameWidget extends StatefulWidget {
 
 class _PlayerGameWidgetState extends State<PlayerGameWidget> {
   bool dead = false;
+  int lives = 3;
   Soundpool pool = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
   Soundpool pool2 = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
   int soundId = 0;
@@ -76,7 +77,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
   void _playTic(levelListNotes) {
     if (playing == true) {
       lastBam = bam;
-      print(level);
+
       if (incTic > 0) {
         if (lastBam == levelListNotes[level][incTic - 1]) {
           setState(() {
@@ -85,6 +86,15 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
         } else {
           setState(() {
             winColor = Colors.red;
+            lives--;
+            if (lives == 0) {
+              plaingNow(widget.gameBpm);
+              playing = false;
+              dead = true;
+              showAlertDialog(context, lives);
+              lives = 3;
+              incTic = -1;
+            }
           });
         }
       }
@@ -113,7 +123,8 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
           plaingNow(widget.gameBpm);
           playing = false;
           dead = true;
-          showAlertDialog(context);
+          showAlertDialog(context, lives);
+          lives = 3;
         }
       }
 
@@ -134,6 +145,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
 
   void plaingNow(gameBpm) {
     if (!playing) {
+      lives = 3;
       Wakelock.enable();
       noteCanList = [];
       for (int i = 0; i < noteActive.length; i++) {
@@ -157,6 +169,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
       colors[0] = Colors.red;
       level = 0;
       dead = false;
+
       setState(() {});
     }
   }
@@ -276,7 +289,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
             SizedBox(height: 10),
             // Text('incTic ' + incTic.toString()),
             Text('level ' + level.toString()),
-            // Text('lastBam ' + lastBam.toString()),
+            Text('lives ' + lives.toString()),
           ],
         ),
       ),
@@ -343,24 +356,49 @@ class TapLine extends StatelessWidget {
   }
 }
 
-showAlertDialog(BuildContext context) {
+showAlertDialog(BuildContext context, lives) {
   // set up the button
   Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
+      lives = 3;
+      Navigator.pop(context);
+    },
+  );
+  Widget compliteButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      lives = 3;
+      Navigator.pop(context);
+      Navigator.pop(context);
+    },
+  );
+  Widget cancelButton = TextButton(
+    child: Text("Назад"),
+    onPressed: () {
+      lives = 3;
       Navigator.pop(context);
       Navigator.pop(context);
     },
   );
 
   // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("My title"),
-    content: Text("This is my message."),
-    actions: [
-      okButton,
-    ],
-  );
+  AlertDialog alert = lives > 0
+      ? AlertDialog(
+          title: Text("Поздравляю!"),
+          content: Text("Ты прошел уровень"),
+          actions: [
+            compliteButton,
+          ],
+        )
+      : AlertDialog(
+          title: Text("Ты проиграл!"),
+          content: Text("Попробуешь еще раз?"),
+          actions: [
+            okButton,
+            cancelButton,
+          ],
+        );
 
   // show the dialog
   showDialog(

@@ -10,7 +10,7 @@ class HardScreen extends StatelessWidget {
       {
         'passed': true,
         'stars': 2,
-        'bpm': 180,
+        'bpm': 80,
         'levelListNotes': [
           [1, 0, 1, 0],
           [1, 1, 1, 1],
