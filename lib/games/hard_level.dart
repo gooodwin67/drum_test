@@ -1,57 +1,91 @@
 import 'package:drum_test/games/game_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HardScreen extends StatelessWidget {
+class HardScreen extends StatefulWidget {
   const HardScreen({super.key});
 
   @override
+  State<HardScreen> createState() => _HardScreenState();
+}
+
+class _HardScreenState extends State<HardScreen> {
+  List hardLevels = [
+    {
+      'passed': true,
+      'stars': 1,
+      'bpm': 80,
+      'levelListNotes': [
+        [0, 0, 0, 0],
+        [1, 1, 2, 1],
+        [0, 0, 0, 0],
+        [1, 1, 1, 1],
+        [0, 0, 0, 0],
+        [1, 1, 1, 1],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 80,
+      'levelListNotes': [
+        [2, 0, 1, 0],
+        [1, 0, 1, 0],
+        [1, 0, 1, 0],
+        [1, 0, 1, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 80,
+      'levelListNotes': [
+        [3, 0, 1, 0],
+        [1, 0, 1, 0],
+        [1, 0, 1, 0],
+        [1, 0, 1, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 80,
+      'levelListNotes': [
+        [4, 0, 1, 0],
+        [1, 0, 1, 0],
+        [1, 0, 1, 0],
+        [1, 0, 1, 0],
+      ]
+    },
+  ];
+
+  var prefs;
+  sharedInit() async {
+    prefs = await SharedPreferences.getInstance();
+    //prefs.remove('hard');
+    //await prefs.setInt('counter', counter);
+    if (prefs.getStringList('hard') == null) {
+      prefs.setStringList('hard', List.filled(hardLevels.length, '0'));
+    } else {
+      for (var i = 0; i < hardLevels.length; i++) {
+        hardLevels[i]['stars'] = int.parse(prefs.getStringList('hard')[i]);
+      }
+    }
+
+    print(hardLevels);
+
+    //hardLevels[0]['stars'] = prefs.getStringList('hard')[0] ?? 0;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    sharedInit();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List hardLevels = [
-      {
-        'passed': true,
-        'stars': 2,
-        'bpm': 80,
-        'levelListNotes': [
-          [1, 0, 1, 0],
-          [1, 1, 1, 1],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-        ]
-      },
-      {
-        'passed': false,
-        'stars': 0,
-        'bpm': 80,
-        'levelListNotes': [
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-        ]
-      },
-      {
-        'passed': false,
-        'stars': 0,
-        'bpm': 80,
-        'levelListNotes': [
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-        ]
-      },
-      {
-        'passed': false,
-        'stars': 0,
-        'bpm': 80,
-        'levelListNotes': [
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-          [1, 0, 1, 0],
-        ]
-      },
-    ];
     int passed = 0;
     hardLevels.forEach((element) {
       if (element['passed']) passed++;
@@ -99,6 +133,8 @@ class HardScreen extends StatelessWidget {
                                     bpm: hardLevels[index]['bpm'].toDouble(),
                                     levelListNotes: hardLevels[index]
                                         ['levelListNotes'],
+                                    prefs: prefs,
+                                    diff: 'hard',
                                   )));
                     },
                     child: Container(

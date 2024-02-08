@@ -6,10 +6,14 @@ class GameScreen extends StatelessWidget {
       {super.key,
       required this.level,
       required this.bpm,
-      required this.levelListNotes});
+      required this.levelListNotes,
+      required this.prefs,
+      required this.diff});
   final level;
   final double bpm;
   final levelListNotes;
+  final prefs;
+  final diff;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,12 @@ class GameScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('Уровень ${level}'),
       ),
-      body: PlayerGameWidget(gameBpm: bpm, levelListNotes: levelListNotes),
+      body: PlayerGameWidget(
+          gameBpm: bpm,
+          levelListNotes: levelListNotes,
+          prefs: prefs,
+          level: level,
+          diff: diff),
     );
   }
 }

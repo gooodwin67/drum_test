@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:drum_test/games/hard_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,29 +8,22 @@ import 'package:wakelock/wakelock.dart';
 
 class PlayerGameWidget extends StatefulWidget {
   const PlayerGameWidget(
-      {super.key,
-      required this.gameBpm,
-      required this.levelListNotes,
-      required this.prefs,
-      required this.level,
-      required this.diff});
+      {super.key, required this.gameBpm, required this.levelListNotes});
 
   final double gameBpm;
   final List levelListNotes;
-  final prefs;
-  final level;
-  final diff;
 
   @override
   State<PlayerGameWidget> createState() => _PlayerGameWidgetState();
 }
 
 class _PlayerGameWidgetState extends State<PlayerGameWidget> {
+  bool dead = false;
+  int lives = 3;
   Soundpool pool = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
   Soundpool pool2 = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
   int soundId = 0;
   int soundId2 = 0;
-  bool dead = false;
   loadSound() async {
     soundId = await rootBundle
         .load("assets/sounds/tic0n.WAV")
@@ -47,10 +38,6 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
   }
 
   bool playing = false;
-
-  double bpm = 80;
-
-  int lives = 3;
 
   int rate = (60000 / 80).round();
   int incTic = 0;
@@ -86,37 +73,27 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
 
   int random = Random().nextInt(5);
 
-  List levelsList = [0, 0, 0, 0];
-  void _playTic(levelListNotes, gameBpm) async {
+  //List levelsList = [0, 0, 0, 0];
+  void _playTic(levelListNotes) {
     if (playing == true) {
       lastBam = bam;
 
       if (incTic > 0) {
-        if (lastBam == levelsList[incTic - 1]) {
+        if (lastBam == levelListNotes[level][incTic - 1]) {
           setState(() {
             winColor = Colors.green;
           });
         } else {
           setState(() {
             winColor = Colors.red;
-            if (lives > 0) {
-              lives--;
-              if (lives == 0) {
-                playing = false;
-                dead = true;
-                showAlertDialog(context, lives);
-                incTic = -1;
-                lives = 3;
-                playAgain();
-              }
-            } else {
-              //plaingNow(gameBpm);
+            lives--;
+            if (lives == 0) {
+              plaingNow(widget.gameBpm);
               playing = false;
               dead = true;
               showAlertDialog(context, lives);
-              incTic = -1;
               lives = 3;
-              playAgain();
+              incTic = -1;
             }
           });
         }
@@ -143,55 +120,24 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
             Colors.transparent
           ];
         } else {
-          plaingNow(gameBpm);
+          plaingNow(widget.gameBpm);
           playing = false;
           dead = true;
-          print(
-              123123123123); /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          var sharedList = widget.prefs.getStringList(widget.diff);
-          sharedList[widget.level - 1] = lives.toString();
-          await widget.prefs.setStringList(widget.diff, sharedList);
-          setState(() {});
           showAlertDialog(context, lives);
-
           lives = 3;
         }
       }
 
-      switch (incTic) {
-        case 1:
-          if (level > 0 && level < levelListNotes.length - 1) {
-            levelsList[2] = levelListNotes[level][2];
-          }
+      if (playing) {
+        if (incTic == 1) {
+          pool.play(soundId);
+        } else {
+          pool2.play(soundId2);
+        }
 
-          break;
-        case 2:
-          if (level > 0 && level < levelListNotes.length - 1) {
-            levelsList[3] = levelListNotes[level][3];
-          }
-          break;
-        case 3:
-          if (level > 0 && level < levelListNotes.length - 1) {
-            levelsList[0] = levelListNotes[level][0];
-          }
-          break;
-        case 4:
-          if (level > 0 && level < levelListNotes.length - 1) {
-            levelsList[1] = levelListNotes[level][1];
-          }
-          break;
-        default:
+        colors.fillRange(0, 4, Colors.grey);
+        colors[incTic - 1] = Colors.red;
       }
-      setState(() {});
-
-      if (incTic == 1) {
-        pool.play(soundId);
-      } else {
-        pool2.play(soundId2);
-      }
-
-      colors.fillRange(0, 4, Colors.grey);
-      if (!dead) colors[incTic - 1] = Colors.red;
 
       setState(() {});
     }
@@ -208,16 +154,14 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
         }
       }
 
-      rate = (60000 / bpm).round();
+      rate = (60000 / gameBpm).round();
       timer = Timer.periodic(Duration(milliseconds: rate),
-          (Timer t) => _playTic(widget.levelListNotes, widget.gameBpm));
+          (Timer t) => _playTic(widget.levelListNotes));
       playing = true;
       setState(() {});
     } else {
       Wakelock.disable();
-
-      levelsList = [0, 0, 0, 0];
-
+      //levelListNotes[0]/////////////////////////////
       timer?.cancel();
       playing = false;
       incTic = 0;
@@ -225,21 +169,9 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
       colors[0] = Colors.red;
       level = 0;
       dead = false;
+
       setState(() {});
     }
-  }
-
-  playAgain() {
-    levelsList = [0, 0, 0, 0];
-
-    timer?.cancel();
-    playing = false;
-    incTic = 0;
-    colors.fillRange(0, 4, Colors.grey);
-    colors[0] = Colors.red;
-    level = 0;
-    dead = false;
-    setState(() {});
   }
 
   @override
@@ -256,8 +188,9 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.levelListNotes);
     return Scaffold(
+      backgroundColor: Color(0xFFffffff),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -275,7 +208,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                       border: Border.all(color: colors[0], width: 2),
                       borderRadius: BorderRadius.circular(7),
                     ),
-                    child: notesList[levelsList[0]],
+                    child: notesList[widget.levelListNotes[level][0]],
                   ),
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
@@ -285,7 +218,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                       border: Border.all(color: colors[1], width: 2),
                       borderRadius: BorderRadius.circular(7),
                     ),
-                    child: notesList[levelsList[1]],
+                    child: notesList[widget.levelListNotes[level][1]],
                   ),
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
@@ -295,7 +228,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                       border: Border.all(color: colors[2], width: 2),
                       borderRadius: BorderRadius.circular(7),
                     ),
-                    child: notesList[levelsList[2]],
+                    child: notesList[widget.levelListNotes[level][2]],
                   ),
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
@@ -305,7 +238,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                       border: Border.all(color: colors[3], width: 2),
                       borderRadius: BorderRadius.circular(7),
                     ),
-                    child: notesList[levelsList[3]],
+                    child: notesList[widget.levelListNotes[level][3]],
                   ),
                 ],
               ),
@@ -429,7 +362,6 @@ showAlertDialog(BuildContext context, lives) {
     child: Text("OK"),
     onPressed: () {
       lives = 3;
-
       Navigator.pop(context);
     },
   );
@@ -437,13 +369,8 @@ showAlertDialog(BuildContext context, lives) {
     child: Text("OK"),
     onPressed: () {
       lives = 3;
-      // Navigator.pop(context);
-      // Navigator.pop(context);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => HardScreen()),
-        (Route<dynamic> route) => false,
-      );
+      Navigator.pop(context);
+      Navigator.pop(context);
     },
   );
   Widget cancelButton = TextButton(
