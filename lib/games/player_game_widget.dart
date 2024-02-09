@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:drum_test/games/easy_level.dart';
 import 'package:drum_test/games/hard_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -87,7 +88,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
   int random = Random().nextInt(5);
 
   List levelsList = [0, 0, 0, 0];
-  void _playTic(levelListNotes, gameBpm) async {
+  void _playTic(levelListNotes, gameBpm, diff) async {
     if (playing == true) {
       lastBam = bam;
 
@@ -104,7 +105,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
               if (lives == 0) {
                 playing = false;
                 dead = true;
-                showAlertDialog(context, lives);
+                showAlertDialog(context, lives, widget.diff);
                 incTic = -1;
                 lives = 3;
                 playAgain();
@@ -113,7 +114,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
               //plaingNow(gameBpm);
               playing = false;
               dead = true;
-              showAlertDialog(context, lives);
+              showAlertDialog(context, lives, widget.diff);
               incTic = -1;
               lives = 3;
               playAgain();
@@ -147,12 +148,13 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
           playing = false;
           dead = true;
           print(
-              123123123123); /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              'выиграл'); /////////////////////////////////////////////////////////////////////////////////////////////////////////////
           var sharedList = widget.prefs.getStringList(widget.diff);
-          sharedList[widget.level - 1] = lives.toString();
+          if (int.parse(sharedList[widget.level - 1]) < lives)
+            sharedList[widget.level - 1] = lives.toString();
           await widget.prefs.setStringList(widget.diff, sharedList);
           setState(() {});
-          showAlertDialog(context, lives);
+          showAlertDialog(context, lives, diff);
 
           lives = 3;
         }
@@ -209,8 +211,10 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
       }
 
       rate = (60000 / bpm).round();
-      timer = Timer.periodic(Duration(milliseconds: rate),
-          (Timer t) => _playTic(widget.levelListNotes, widget.gameBpm));
+      timer = Timer.periodic(
+          Duration(milliseconds: rate),
+          (Timer t) =>
+              _playTic(widget.levelListNotes, widget.gameBpm, widget.diff));
       playing = true;
       setState(() {});
     } else {
@@ -423,10 +427,10 @@ class TapLine extends StatelessWidget {
   }
 }
 
-showAlertDialog(BuildContext context, lives) {
+showAlertDialog(BuildContext context, lives, diff) {
   // set up the button
   Widget okButton = TextButton(
-    child: Text("OK"),
+    child: Text("Еще раз"),
     onPressed: () {
       lives = 3;
 
@@ -434,16 +438,19 @@ showAlertDialog(BuildContext context, lives) {
     },
   );
   Widget compliteButton = TextButton(
-    child: Text("OK"),
+    child: Text("Назад"),
     onPressed: () {
       lives = 3;
-      // Navigator.pop(context);
-      // Navigator.pop(context);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => HardScreen()),
-        (Route<dynamic> route) => false,
-      );
+      Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
+      if (diff == 'easy') {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const EasyScreen()));
+      } else if (diff == 'hard') {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HardScreen()));
+      }
     },
   );
   Widget cancelButton = TextButton(
@@ -458,10 +465,62 @@ showAlertDialog(BuildContext context, lives) {
   // set up the AlertDialog
   AlertDialog alert = lives > 0
       ? AlertDialog(
-          title: Text("Поздравляю!"),
-          content: Text("Ты прошел уровень"),
+          title: Text(
+            "Поздравляю!",
+            style: TextStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Ты прошел уровень",
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  lives > 0
+                      ? Icon(
+                          Icons.star,
+                          color: Colors.red,
+                          size: 40,
+                        )
+                      : Icon(
+                          Icons.star_border_outlined,
+                          color: const Color.fromARGB(255, 187, 187, 187),
+                          size: 40,
+                        ),
+                  lives > 1
+                      ? Icon(
+                          Icons.star,
+                          color: Colors.red,
+                          size: 40,
+                        )
+                      : Icon(
+                          Icons.star_border_outlined,
+                          color: const Color.fromARGB(255, 187, 187, 187),
+                          size: 40,
+                        ),
+                  lives > 2
+                      ? Icon(
+                          Icons.star,
+                          color: Colors.red,
+                          size: 40,
+                        )
+                      : Icon(
+                          Icons.star_border_outlined,
+                          color: const Color.fromARGB(255, 187, 187, 187),
+                          size: 40,
+                        ),
+                ],
+              ),
+            ],
+          ),
           actions: [
             compliteButton,
+            okButton,
           ],
         )
       : AlertDialog(

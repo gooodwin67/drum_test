@@ -62,13 +62,13 @@ class _HardScreenState extends State<HardScreen> {
   var prefs;
   sharedInit() async {
     prefs = await SharedPreferences.getInstance();
-    //prefs.remove('hard');
-    //await prefs.setInt('counter', counter);
+
     if (prefs.getStringList('hard') == null) {
       prefs.setStringList('hard', List.filled(hardLevels.length, '0'));
     } else {
       for (var i = 0; i < hardLevels.length; i++) {
         hardLevels[i]['stars'] = int.parse(prefs.getStringList('hard')[i]);
+        if (hardLevels[i]['stars'] > 0) hardLevels[i]['passed'] = true;
       }
     }
 
@@ -97,6 +97,18 @@ class _HardScreenState extends State<HardScreen> {
         centerTitle: true,
         title: Text('Продвинутый уровень'),
       ),
+      persistentFooterAlignment: AlignmentDirectional.center,
+      persistentFooterButtons: [
+        TextButton(
+            onPressed: () async {
+              await prefs.remove('hard');
+              sharedInit();
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HardScreen()));
+            },
+            child: Text("Сбросить счет"))
+      ],
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: GridView.builder(
