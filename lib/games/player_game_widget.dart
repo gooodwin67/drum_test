@@ -210,7 +210,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
         }
       }
 
-      rate = (60000 / bpm).round();
+      rate = (60000 / gameBpm).round();
       timer = Timer.periodic(
           Duration(milliseconds: rate),
           (Timer t) =>
