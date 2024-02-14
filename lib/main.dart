@@ -18,7 +18,8 @@ class MainScreen extends StatelessWidget {
       title: 'Rhythm Challenge',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 151, 124, 83)),
         primaryColor: Colors.white,
         useMaterial3: true,
         textTheme: const TextTheme().copyWith(
@@ -53,20 +54,41 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(60),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/rhythm-back.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 50),
         child: Center(
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const Text(
+              "RHYTHM CHALLENGE",
+              style: TextStyle(
+                fontSize: 35,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
             ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.white),
+              ),
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const TutorialScreen()));
               },
-              child: Text('Tutorial'),
+              child: Text(
+                'Инструкция',
+                style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -76,7 +98,10 @@ class MenuScreen extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => const FreeScreen()));
               },
-              child: Text('FREE Rhytm Challenge'),
+              child: Text(
+                'Ритм Челлендж',
+                style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -86,7 +111,10 @@ class MenuScreen extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => const SelectGameScreen()));
               },
-              child: Text('GAME Rhytm Challenge'),
+              child: Text(
+                'Игра "Ритм Челлендж"',
+                style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+              ),
             ),
           ],
         )),

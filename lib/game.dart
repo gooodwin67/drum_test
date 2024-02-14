@@ -14,48 +14,86 @@ class SelectGameScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('GAME Rhytm Challenge'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EasyScreen()));
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      color: const Color.fromARGB(255, 223, 223, 223),
-                      alignment: Alignment.center,
-                      child: Text('Начальный уровень'),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/rhythm-back3.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 70),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EasyScreen()));
+                  },
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF43886c),
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromARGB(172, 0, 0, 0),
+                            blurRadius: 5,
+                            offset: Offset(2, 2)),
+                      ],
+                    ),
+                    child: const Text(
+                      'Начальный уровень',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(width: 20),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HardScreen()));
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      color: const Color.fromARGB(255, 223, 223, 223),
-                      alignment: Alignment.center,
-                      child: Text('Продвинутый уровень'),
+                ),
+                SizedBox(width: 20),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HardScreen()));
+                  },
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFCA584C),
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromARGB(172, 0, 0, 0),
+                            blurRadius: 5,
+                            offset: Offset(2, 2)),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ],
-          ),
+                    child: const Text(
+                      'Продвинутый уровень',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

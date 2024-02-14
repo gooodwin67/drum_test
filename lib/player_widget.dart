@@ -457,6 +457,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
+                              borderRadius: BorderRadius.circular(1000),
                               splashColor:
                                   const Color.fromARGB(10, 255, 255, 255),
                               enableFeedback: true,

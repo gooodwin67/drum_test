@@ -169,7 +169,13 @@ class _HardScreenState extends State<HardScreen> {
             },
             child: Text("Сбросить счет"))
       ],
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/rhythm-back3.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: AnimationLimiter(
           child: ListView.builder(
@@ -227,7 +233,7 @@ class _HardScreenState extends State<HardScreen> {
                               margin: EdgeInsets.symmetric(vertical: 10),
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                  color: Colors.amber,
+                                  color: Color(0xFFCA584C),
                                   borderRadius: BorderRadius.circular(15)),
                               child: Column(
                                 mainAxisAlignment:
@@ -236,8 +242,9 @@ class _HardScreenState extends State<HardScreen> {
                                 children: [
                                   Text(
                                     level.toString(),
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 25, 7, 190),
+                                    style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                         fontSize: 35,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -247,7 +254,9 @@ class _HardScreenState extends State<HardScreen> {
                                       hardLevels[index]['stars'] > 0
                                           ? Icon(
                                               Icons.star,
-                                              color: Colors.red,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .inversePrimary,
                                             )
                                           : Icon(
                                               Icons.star_border_outlined,
@@ -256,7 +265,9 @@ class _HardScreenState extends State<HardScreen> {
                                       hardLevels[index]['stars'] > 1
                                           ? Icon(
                                               Icons.star,
-                                              color: Colors.red,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .inversePrimary,
                                             )
                                           : Icon(
                                               Icons.star_border_outlined,
@@ -265,7 +276,9 @@ class _HardScreenState extends State<HardScreen> {
                                       hardLevels[index]['stars'] > 2
                                           ? Icon(
                                               Icons.star,
-                                              color: Colors.red,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .inversePrimary,
                                             )
                                           : Icon(
                                               Icons.star_border_outlined,
