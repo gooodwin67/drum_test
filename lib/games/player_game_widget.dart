@@ -75,11 +75,11 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
   Color winColor = Colors.white;
 
   List notesList = [
-    Image.asset('assets/notes/nota0.jpg'),
-    Image.asset('assets/notes/nota1.jpg'),
-    Image.asset('assets/notes/nota2.jpg'),
-    Image.asset('assets/notes/nota3.jpg'),
-    Image.asset('assets/notes/nota4.jpg'),
+    Image.asset('assets/notes/white/nota0w.png'),
+    Image.asset('assets/notes/white/nota1w.png'),
+    Image.asset('assets/notes/white/nota2w.png'),
+    Image.asset('assets/notes/white/nota3w.png'),
+    Image.asset('assets/notes/white/nota4w.png'),
   ];
 
   List noteCanList = [0, 1, 2, 3, 4];
@@ -279,7 +279,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                 children: [
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
-                    width: 70,
+                    width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(color: colors[0], width: 2),
@@ -289,7 +289,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                   ),
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
-                    width: 70,
+                    width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(color: colors[1], width: 2),
@@ -299,7 +299,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                   ),
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
-                    width: 70,
+                    width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(color: colors[2], width: 2),
@@ -309,7 +309,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                   ),
                   AnimatedContainer(
                     duration: Duration(milliseconds: 0),
-                    width: 70,
+                    width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(color: colors[3], width: 2),
