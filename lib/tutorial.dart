@@ -8,9 +8,12 @@ class TutorialScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFffffff),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
-        title: Text('TUTORIAL'),
+        title: Text(
+          'TUTORIAL',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
     );
   }

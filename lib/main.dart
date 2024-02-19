@@ -18,14 +18,18 @@ class MainScreen extends StatelessWidget {
       title: 'Rhythm Challenge',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 151, 124, 83)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromARGB(255, 56, 41, 25),
+          primary: Color.fromARGB(255, 94, 72, 45),
+        ),
+        primaryColorDark: Color(0xFFA08F7B),
         primaryColor: Colors.white,
         useMaterial3: true,
         textTheme: const TextTheme().copyWith(
           bodySmall: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           bodyMedium: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-          bodyLarge: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+          bodyLarge: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255), fontSize: 23),
           labelSmall:
               const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           labelMedium:

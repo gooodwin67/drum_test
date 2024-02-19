@@ -7,21 +7,24 @@ class SelectGameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF000000),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        centerTitle: true,
-        title: Text('GAME Rhytm Challenge'),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/rhythm-back3.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/rhythm-back3.jpg'),
-            fit: BoxFit.cover,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: Text(
+            'Игра РИТМ Челлендж',
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
-        child: Column(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 70),
