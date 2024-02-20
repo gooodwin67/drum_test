@@ -17,6 +17,7 @@ class SelectGameScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:drum_test/games/game_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -151,34 +153,51 @@ class _HardScreenState extends State<HardScreen> {
       if (element['passed']) passed++;
     });
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        centerTitle: true,
-        title: Text('Продвинутый уровень'),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/rhythm-back3.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      persistentFooterAlignment: AlignmentDirectional.center,
-      persistentFooterButtons: [
-        TextButton(
-            onPressed: () async {
-              await prefs.remove('hard');
-              sharedInit();
-              Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HardScreen()));
-            },
-            child: Text("Сбросить счет"))
-      ],
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/rhythm-back3.jpg'),
-            fit: BoxFit.cover,
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          flexibleSpace: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Color.fromARGB(51, 5, 5, 5),
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            'Продвинутый уровень',
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: AnimationLimiter(
+        bottomNavigationBar: Container(
+          color: Colors.transparent,
+          width: 100,
+          child: ElevatedButton(
+              onPressed: () async {
+                await prefs.remove('hard');
+                sharedInit();
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HardScreen()));
+              },
+              child: Text("Сбросить счет")),
+        ),
+        body: AnimationLimiter(
           child: ListView.builder(
             itemCount: hardLevels.length,
             itemBuilder: (BuildContext ctx, index) {
@@ -196,7 +215,7 @@ class _HardScreenState extends State<HardScreen> {
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              color: Color.fromARGB(255, 71, 71, 71),
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Icon(

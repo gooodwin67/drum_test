@@ -260,15 +260,9 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.levelListNotes);
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/rhythm-back2.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
         child: Column(
           children: [
             SizedBox(height: 30),
@@ -278,9 +272,10 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   AnimatedContainer(
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                     duration: Duration(milliseconds: 0),
                     width: MediaQuery.of(context).size.width / 4.5,
-                    height: double.infinity,
+                    height: double.infinity / 2,
                     decoration: BoxDecoration(
                       border: Border.all(color: colors[0], width: 2),
                       borderRadius: BorderRadius.circular(7),
@@ -288,6 +283,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                     child: notesList[levelsList[0]],
                   ),
                   AnimatedContainer(
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                     duration: Duration(milliseconds: 0),
                     width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,
@@ -298,6 +294,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                     child: notesList[levelsList[1]],
                   ),
                   AnimatedContainer(
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                     duration: Duration(milliseconds: 0),
                     width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,
@@ -308,6 +305,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                     child: notesList[levelsList[2]],
                   ),
                   AnimatedContainer(
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                     duration: Duration(milliseconds: 0),
                     width: MediaQuery.of(context).size.width / 4.5,
                     height: double.infinity,

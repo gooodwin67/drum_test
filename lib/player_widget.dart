@@ -239,7 +239,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                                 ),
                                 child: Slider(
                                   min: 50,
-                                  max: 330,
+                                  max: 200,
                                   value: bpm,
                                   label: bpm.round().toString(),
                                   onChanged: (double value) {
@@ -285,118 +285,141 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                                 children: [
                                   Text('Используемые ноты'),
                                   SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 10,
-                                              child: Checkbox(
-                                                  value: noteActive[0],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      noteActive[0] = value;
-                                                      if (value == false) {
-                                                        levelsList = [
-                                                          1,
-                                                          1,
-                                                          1,
-                                                          1
-                                                        ];
-                                                      } else {
-                                                        levelsList = [
-                                                          0,
-                                                          0,
-                                                          0,
-                                                          0
-                                                        ];
-                                                      }
-                                                    });
-                                                  }),
-                                            ),
-                                            Text('0'),
-                                          ],
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 25,
+                                                height: 10,
+                                                child: Checkbox(
+                                                    value: noteActive[0],
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        noteActive[0] = value;
+                                                        // if (value == false) {
+                                                        //   levelsList = [
+                                                        //     1,
+                                                        //     1,
+                                                        //     1,
+                                                        //     1
+                                                        //   ];
+                                                        // } else {
+                                                        //   levelsList = [
+                                                        //     0,
+                                                        //     0,
+                                                        //     0,
+                                                        //     0
+                                                        //   ];
+                                                        // }
+                                                      });
+                                                    }),
+                                              ),
+                                              Container(
+                                                width: 30,
+                                                height: 30,
+                                                child: notesList[0],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 10,
-                                              child: Checkbox(
-                                                  value: noteActive[1],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      noteActive[1] = value;
-                                                    });
-                                                  }),
-                                            ),
-                                            Text('1'),
-                                          ],
+                                        SizedBox(width: 5),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 25,
+                                                height: 10,
+                                                child: Checkbox(
+                                                    value: noteActive[1],
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        noteActive[1] = value;
+                                                      });
+                                                    }),
+                                              ),
+                                              Container(
+                                                width: 30,
+                                                height: 30,
+                                                child: notesList[1],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 10,
-                                              child: Checkbox(
-                                                  value: noteActive[2],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      noteActive[2] = value;
-                                                    });
-                                                  }),
-                                            ),
-                                            Text('2'),
-                                          ],
+                                        SizedBox(width: 10),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 25,
+                                                height: 10,
+                                                child: Checkbox(
+                                                    value: noteActive[2],
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        noteActive[2] = value;
+                                                      });
+                                                    }),
+                                              ),
+                                              Container(
+                                                width: 25,
+                                                height: 30,
+                                                child: notesList[2],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 10,
-                                              child: Checkbox(
-                                                  value: noteActive[3],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      noteActive[3] = value;
-                                                    });
-                                                  }),
-                                            ),
-                                            Text('3'),
-                                          ],
+                                        SizedBox(width: 15),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 25,
+                                                height: 10,
+                                                child: Checkbox(
+                                                    value: noteActive[3],
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        noteActive[3] = value;
+                                                      });
+                                                    }),
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                height: 30,
+                                                child: notesList[3],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              height: 10,
-                                              child: Checkbox(
-                                                  value: noteActive[4],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      noteActive[4] = value;
-                                                    });
-                                                  }),
-                                            ),
-                                            Text('4'),
-                                          ],
+                                        SizedBox(width: 10),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 30,
+                                                height: 10,
+                                                child: Checkbox(
+                                                    value: noteActive[4],
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        noteActive[4] = value;
+                                                      });
+                                                    }),
+                                              ),
+                                              Container(
+                                                width: 30,
+                                                height: 30,
+                                                child: notesList[4],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -415,7 +438,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AnimatedContainer(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
@@ -426,7 +450,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       child: notesList[levelsList[0]],
                     ),
                     AnimatedContainer(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
@@ -437,7 +462,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       child: notesList[levelsList[1]],
                     ),
                     AnimatedContainer(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
@@ -448,7 +474,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       child: notesList[levelsList[2]],
                     ),
                     AnimatedContainer(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
