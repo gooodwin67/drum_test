@@ -64,7 +64,12 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
 
   Timer? timer;
 
-  List colors = [Colors.red, Colors.grey, Colors.grey, Colors.grey];
+  List colors = [
+    Color.fromARGB(255, 123, 125, 255),
+    Colors.grey,
+    Colors.grey,
+    Colors.grey
+  ];
   List tapColors = [
     Colors.transparent,
     Colors.transparent,
@@ -193,7 +198,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
       }
 
       colors.fillRange(0, 4, Colors.grey);
-      if (!dead) colors[incTic - 1] = Colors.red;
+      if (!dead) colors[incTic - 1] = Color.fromARGB(255, 123, 125, 255);
 
       setState(() {});
     }
@@ -226,7 +231,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
       playing = false;
       incTic = 0;
       colors.fillRange(0, 4, Colors.grey);
-      colors[0] = Colors.red;
+      colors[0] = Color.fromARGB(255, 123, 125, 255);
       level = 0;
       dead = false;
       setState(() {});
@@ -240,7 +245,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
     playing = false;
     incTic = 0;
     colors.fillRange(0, 4, Colors.grey);
-    colors[0] = Colors.red;
+    colors[0] = Color.fromARGB(255, 123, 125, 255);
     level = 0;
     dead = false;
     setState(() {});

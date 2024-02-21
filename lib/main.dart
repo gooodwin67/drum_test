@@ -2,6 +2,7 @@
 
 import 'package:drum_test/free.dart';
 import 'package:drum_test/game.dart';
+import 'package:drum_test/info.dart';
 import 'package:drum_test/tutorial.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,12 @@ class MainScreen extends StatelessWidget {
       title: 'Rhythm Challenge',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android:
+                FadeUpwardsPageTransitionsBuilder(), // Apply this to every platforms you need.
+          },
+        ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Color.fromARGB(255, 56, 41, 25),
           primary: Color.fromARGB(255, 94, 72, 45),
@@ -64,64 +71,87 @@ class MenuScreen extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 50),
-        child: Center(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding:
+            const EdgeInsets.only(left: 60, right: 60, top: 50, bottom: 10),
+        child: Stack(
           children: [
-            const Text(
-              "RHYTHM CHALLENGE",
-              style: TextStyle(
-                fontSize: 35,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.white),
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TutorialScreen()));
-              },
-              child: Text(
-                'Инструкция',
-                style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const InfoScreen()));
+                  },
+                  child: Text(
+                    'Информация',
+                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FreeScreen()));
-              },
-              child: Text(
-                'Ритм Челлендж',
-                style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SelectGameScreen()));
-              },
-              child: Text(
-                'Игра "Ритм Челлендж"',
-                style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
-              ),
-            ),
+            Center(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  "RHYTHM CHALLENGE",
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TutorialScreen()));
+                  },
+                  child: Text(
+                    'Инструкция',
+                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FreeScreen()));
+                  },
+                  child: Text(
+                    'Ритм Челлендж',
+                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SelectGameScreen()));
+                  },
+                  child: Text(
+                    'Игра "Ритм Челлендж"',
+                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                  ),
+                ),
+              ],
+            )),
           ],
-        )),
+        ),
       ),
     );
   }
