@@ -3,6 +3,7 @@
 import 'package:drum_test/free.dart';
 import 'package:drum_test/game.dart';
 import 'package:drum_test/info.dart';
+import 'package:drum_test/online_game/online_game.dart';
 import 'package:drum_test/tutorial.dart';
 import 'package:flutter/material.dart';
 
@@ -79,17 +80,41 @@ class MenuScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const InfoScreen()));
-                  },
-                  child: Text(
-                    'Информация',
-                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TutorialScreen()));
+                      },
+                      child: Text(
+                        'Инструкция',
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const InfoScreen()));
+                      },
+                      child: Text(
+                        'Информация',
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -100,29 +125,13 @@ class MenuScreen extends StatelessWidget {
                 const Text(
                   "RHYTHM CHALLENGE",
                   style: TextStyle(
-                    fontSize: 35,
+                    fontSize: 30,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TutorialScreen()));
-                  },
-                  child: Text(
-                    'Инструкция',
-                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
-                  ),
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -131,7 +140,7 @@ class MenuScreen extends StatelessWidget {
                             builder: (context) => const FreeScreen()));
                   },
                   child: Text(
-                    'Ритм Челлендж',
+                    'Свободная тренировка',
                     style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
                   ),
                 ),
@@ -145,6 +154,19 @@ class MenuScreen extends StatelessWidget {
                   },
                   child: Text(
                     'Игра "Ритм Челлендж"',
+                    style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const OnlineGameWidget()));
+                  },
+                  child: Text(
+                    'Online соревнование',
                     style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
                   ),
                 ),
