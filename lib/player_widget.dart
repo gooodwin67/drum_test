@@ -21,12 +21,12 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   int soundId2 = 0;
   loadSound() async {
     soundId = await rootBundle
-        .load("assets/sounds/tic0n.WAV")
+        .load("assets/sounds/tic.WAV")
         .then((ByteData soundData) {
       return pool.load(soundData);
     });
     soundId2 = await rootBundle
-        .load("assets/sounds/tic9n.WAV")
+        .load("assets/sounds/tic.WAV")
         .then((ByteData soundData) {
       return pool2.load(soundData);
     });
