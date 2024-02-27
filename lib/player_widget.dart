@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:soundpool/soundpool.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
 
 class PlayerWidget extends StatefulWidget {
@@ -517,6 +518,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                                     const Color.fromARGB(10, 255, 255, 255),
                                 enableFeedback: true,
                                 onTapDown: (tap) {
+                                  Vibration.vibrate(duration: 50);
                                   setState(() {
                                     bam++;
                                     if (bam > 0 && bam < 5) {

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:soundpool/soundpool.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
 
 class PlayerGameWidget extends StatefulWidget {
@@ -111,6 +112,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                 playing = false;
                 dead = true;
                 showAlertDialog(context, lives, widget.diff);
+                print('Проиграл');
                 incTic = -1;
                 lives = 3;
                 playAgain();
@@ -150,7 +152,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
           ];
         } else {
           plaingNow(gameBpm);
-          playing = false;
+          //playing = false;
           dead = true;
           print(
               'выиграл'); /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +161,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
             sharedList[widget.level - 1] = lives.toString();
           await widget.prefs.setStringList(widget.diff, sharedList);
           setState(() {});
-          showAlertDialog(context, lives, diff);
+          showAlertDialog(context, lives, widget.diff);
 
           lives = 3;
         }
@@ -197,8 +199,10 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
         pool2.play(soundId2);
       }
 
-      colors.fillRange(0, 4, Colors.grey);
-      if (!dead) colors[incTic - 1] = Color.fromARGB(255, 123, 125, 255);
+      if (!dead) {
+        colors.fillRange(0, 4, Colors.grey);
+        colors[incTic - 1] = Color.fromARGB(255, 123, 125, 255);
+      }
 
       setState(() {});
     }
@@ -221,6 +225,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
           (Timer t) =>
               _playTic(widget.levelListNotes, widget.gameBpm, widget.diff));
       playing = true;
+      dead = false;
       setState(() {});
     } else {
       Wakelock.disable();
@@ -347,6 +352,7 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
                                   const Color.fromARGB(10, 255, 255, 255),
                               enableFeedback: true,
                               onTapDown: (tap) {
+                                Vibration.vibrate(duration: 50);
                                 setState(() {
                                   bam++;
                                   if (bam > 0 && bam < 5) {
@@ -534,8 +540,20 @@ showAlertDialog(BuildContext context, lives, diff) {
           ],
         )
       : AlertDialog(
-          title: Text("Ты проиграл!"),
-          content: Text("Попробуешь еще раз?"),
+          title: Center(
+              child: Text(
+            "Ты проиграл!",
+            style: TextStyle(fontSize: 30),
+          )),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Попробуешь еще раз?",
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
           actions: [
             okButton,
             cancelButton,

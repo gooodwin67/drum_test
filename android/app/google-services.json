@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "448551856463",
+    "project_id": "rhythm-challenge-117ab",
+    "storage_bucket": "rhythm-challenge-117ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448551856463:android:db2f6a34f9641a7e603d3a",
+        "android_client_info": {
+          "package_name": "com.example.drum_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWArss72wGTK0rAmZCdTif0Zk-yxYuZv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

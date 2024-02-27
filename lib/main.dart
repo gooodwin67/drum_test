@@ -5,6 +5,7 @@ import 'package:drum_test/game.dart';
 import 'package:drum_test/info.dart';
 import 'package:drum_test/online_game/online_game.dart';
 import 'package:drum_test/tutorial.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -142,6 +143,7 @@ class MenuScreen extends StatelessWidget {
                   child: Text(
                     'Свободная тренировка',
                     style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -155,6 +157,7 @@ class MenuScreen extends StatelessWidget {
                   child: Text(
                     'Игра "Ритм Челлендж"',
                     style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -168,6 +171,7 @@ class MenuScreen extends StatelessWidget {
                   child: Text(
                     'Online соревнование',
                     style: TextStyle(color: Color.fromARGB(255, 73, 73, 73)),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
