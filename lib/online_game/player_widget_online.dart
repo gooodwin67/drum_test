@@ -400,7 +400,8 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                                     const Color.fromARGB(10, 255, 255, 255),
                                 enableFeedback: true,
                                 onTapDown: (tap) {
-                                  Vibration.vibrate(duration: 50);
+                                  Vibration.vibrate(
+                                      duration: 50, amplitude: 128);
                                   setState(() {
                                     bam++;
                                     if (bam > 0 && bam < 5) {
