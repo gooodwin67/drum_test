@@ -1,4 +1,6 @@
+import 'package:drum_test/player_widget_tutorial.dart';
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TutorialScreen extends StatelessWidget {
@@ -38,6 +40,21 @@ class TutorialScreen extends StatelessWidget {
               Text('Идея приложения была взята из видео на YouTube.'),
               SizedBox(height: 10),
               YoutubePlayer(controller: _controller),
+              SizedBox(height: 30),
+              Text('Перейдите на страницу с обучением.'),
+              SizedBox(height: 10),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShowCaseWidget(
+                            builder: Builder(
+                                builder: (context) => PlayerWidgetTutorial()),
+                          ),
+                        ));
+                  },
+                  child: Text('Обучение')),
             ],
           ),
         ),

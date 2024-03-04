@@ -46,13 +46,15 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
 
   bool playing = false;
 
+  int myRec = 0;
+
   double bpm = 80;
 
   int rate = (60000 / 80).round();
   int incTic = 0;
   int level = 0;
 
-  int difficulty = 1; //1-3 Частота смены нот
+  int difficulty = 2; //1-3 Частота смены нот
 
   int bam = 0;
   int lastBam = 0;
@@ -170,6 +172,22 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
     }
   }
 
+  void loadRec() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    if (bpm.toInt() == 80) {
+      int rec80 = prefs.getInt('80') ?? 0;
+      myRec = rec80;
+    } else if (bpm.toInt() == 100) {
+      int rec100 = prefs.getInt('100') ?? 0;
+      myRec = rec100;
+    } else if (bpm.toInt() == 120) {
+      int rec120 = prefs.getInt('120') ?? 0;
+      myRec = rec120;
+    }
+    setState(() {});
+  }
+
   void saveScore() async {
     int score = level;
     int saveBpm = bpm.toInt();
@@ -196,6 +214,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
     }
 
     showAlertDialog(context, score, newRec);
+    loadRec();
   }
 
   void plaingNow() {
@@ -231,6 +250,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
   @override
   void initState() {
     loadSound();
+    loadRec();
     super.initState();
   }
 
@@ -254,7 +274,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          title: Text('РИТМ Челлендж'),
+          title: Text('РИТМ Челлендж Online'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -292,6 +312,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                                     value: bpm,
                                     label: bpm.round().toString(),
                                     onChanged: (double value) {
+                                      loadRec();
                                       setState(() {
                                         bpm = value;
                                       });
@@ -300,28 +321,43 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                                 ),
                               ),
                             ]))
-                    : Container(
-                        height: 80,
-                        key: Key('hideMenu'),
-                        width: double.infinity,
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color.fromARGB(55, 250, 255, 219),
-                        ),
-                        child: Text(
-                          'Счет: ' + level.toString(),
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color.fromARGB(255, 58, 58, 58)),
-                        ),
-                      ),
+                    : SizedBox(),
+              ),
+              SizedBox(height: 5),
+              Container(
+                height: 70,
+                key: Key('hideMenu'),
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: Color.fromARGB(57, 255, 255, 255),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Счет: ${level.toString()}',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: const Color.fromARGB(255, 58, 58, 58)),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'Мой рекорд: ${myRec}',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: const Color.fromARGB(255, 58, 58, 58)),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20),
               Container(
                 height: MediaQuery.of(context).size.height / 5,
+                padding: EdgeInsets.symmetric(horizontal: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -329,7 +365,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                       padding:
                           EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      width: MediaQuery.of(context).size.width / 4.7,
                       height: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(color: colors[0], width: 2),
@@ -341,7 +377,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                       padding:
                           EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      width: MediaQuery.of(context).size.width / 4.7,
                       height: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(color: colors[1], width: 2),
@@ -353,7 +389,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                       padding:
                           EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      width: MediaQuery.of(context).size.width / 4.7,
                       height: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(color: colors[2], width: 2),
@@ -365,7 +401,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                       padding:
                           EdgeInsets.symmetric(vertical: 40, horizontal: 5),
                       duration: Duration(milliseconds: 0),
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      width: MediaQuery.of(context).size.width / 4.7,
                       height: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(color: colors[3], width: 2),
@@ -509,6 +545,13 @@ showAlertDialog(BuildContext context, score, newRec) {
       Navigator.pop(context);
     },
   );
+  Widget backButton = TextButton(
+    child: Text("Назад"),
+    onPressed: () {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    },
+  );
 
   AlertDialog alert = AlertDialog(
     title: Text(
@@ -541,6 +584,7 @@ showAlertDialog(BuildContext context, score, newRec) {
     ),
     actions: [
       okButton,
+      backButton,
     ],
   );
   showDialog(

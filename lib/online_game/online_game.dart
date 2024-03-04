@@ -165,11 +165,11 @@ class _OnlineGameWidgetState extends State<OnlineGameWidget> {
                                 style: TextStyle(fontSize: 15),
                                 textAlign: TextAlign.center,
                               ),
-                              Text(
-                                'id: $id',
-                                style: TextStyle(fontSize: 15),
-                                textAlign: TextAlign.center,
-                              ),
+                              // Text(
+                              //   'id: $id',
+                              //   style: TextStyle(fontSize: 15),
+                              //   textAlign: TextAlign.center,
+                              // ),
                               SizedBox(height: 20),
                             ],
                           )
