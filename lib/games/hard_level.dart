@@ -4,6 +4,7 @@ import 'package:drum_test/games/game_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math' as math;
 
 class HardScreen extends StatefulWidget {
   const HardScreen({super.key});
@@ -20,67 +21,11 @@ class _HardScreenState extends State<HardScreen> {
       'bpm': 80,
       'levelListNotes': [
         [0, 0, 0, 0],
-        [0, 0, 1, 0],
-        [1, 0, 1, 0],
-        [0, 0, 1, 1],
         [0, 1, 1, 0],
-        [1, 1, 1, 1],
-        [0, 0, 0, 0],
-      ]
-    },
-    {
-      'passed': false,
-      'stars': 0,
-      'bpm': 80,
-      'levelListNotes': [
-        [0, 0, 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 1],
-        [0, 1, 1, 1],
-        [1, 1, 1, 1],
-        [0, 1, 1, 0],
-        [0, 0, 0, 0],
-      ]
-    },
-    {
-      'passed': false,
-      'stars': 0,
-      'bpm': 80,
-      'levelListNotes': [
-        [0, 0, 0, 0],
-        [1, 0, 0, 0],
-        [1, 0, 2, 0],
-        [1, 0, 2, 0],
         [1, 1, 2, 0],
-        [1, 1, 2, 1],
-        [0, 0, 0, 0],
-      ]
-    },
-    {
-      'passed': false,
-      'stars': 0,
-      'bpm': 80,
-      'levelListNotes': [
-        [0, 0, 0, 0],
-        [0, 1, 0, 2],
-        [0, 1, 0, 2],
-        [1, 0, 2, 0],
-        [2, 0, 1, 0],
-        [2, 1, 1, 1],
-        [0, 0, 0, 0],
-      ]
-    },
-    {
-      'passed': false,
-      'stars': 0,
-      'bpm': 90,
-      'levelListNotes': [
-        [0, 0, 0, 0],
-        [0, 0, 1, 0],
-        [2, 0, 1, 0],
-        [2, 0, 1, 1],
-        [2, 0, 1, 1],
-        [2, 2, 1, 1],
+        [0, 1, 3, 0],
+        [0, 2, 3, 0],
+        [0, 3, 3, 0],
         [0, 0, 0, 0],
       ]
     },
@@ -90,11 +35,67 @@ class _HardScreenState extends State<HardScreen> {
       'bpm': 100,
       'levelListNotes': [
         [0, 0, 0, 0],
-        [0, 1, 1, 1],
-        [0, 1, 1, 1],
+        [0, 1, 1, 0],
+        [1, 1, 2, 0],
+        [0, 1, 3, 0],
+        [0, 2, 3, 0],
+        [0, 3, 3, 0],
+        [0, 0, 0, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 120,
+      'levelListNotes': [
+        [0, 0, 0, 0],
+        [0, 1, 1, 0],
+        [1, 1, 2, 0],
         [0, 1, 2, 1],
-        [0, 1, 2, 2],
+        [0, 2, 2, 1],
+        [0, 2, 2, 2],
+        [0, 0, 0, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 120,
+      'levelListNotes': [
+        [0, 0, 0, 0],
+        [0, 1, 1, 0],
+        [1, 1, 2, 1],
+        [1, 1, 2, 1],
+        [1, 2, 2, 1],
         [2, 2, 2, 2],
+        [0, 0, 0, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 120,
+      'levelListNotes': [
+        [0, 0, 0, 0],
+        [0, 1, 1, 0],
+        [0, 1, 2, 1],
+        [1, 1, 3, 1],
+        [1, 2, 3, 1],
+        [2, 3, 3, 2],
+        [0, 0, 0, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 140,
+      'levelListNotes': [
+        [0, 0, 0, 0],
+        [0, 1, 1, 0],
+        [0, 1, 2, 1],
+        [0, 1, 2, 1],
+        [0, 2, 2, 1],
+        [0, 2, 2, 2],
         [0, 0, 0, 0],
       ]
     },
@@ -106,9 +107,23 @@ class _HardScreenState extends State<HardScreen> {
         [0, 0, 0, 0],
         [0, 0, 2, 0],
         [1, 0, 2, 0],
-        [1, 0, 3, 0],
-        [1, 0, 3, 1],
-        [0, 1, 1, 1],
+        [1, 0, 4, 0],
+        [1, 0, 4, 1],
+        [0, 1, 4, 4],
+        [0, 0, 0, 0],
+      ]
+    },
+    {
+      'passed': false,
+      'stars': 0,
+      'bpm': 100,
+      'levelListNotes': [
+        [0, 0, 0, 0],
+        [0, 0, 2, 0],
+        [1, 0, 2, 0],
+        [1, 0, 4, 0],
+        [1, 0, 4, 1],
+        [0, 1, 4, 4],
         [0, 0, 0, 0],
       ]
     },
@@ -118,13 +133,12 @@ class _HardScreenState extends State<HardScreen> {
       'bpm': 120,
       'levelListNotes': [
         [0, 0, 0, 0],
-        [0, 0, 1, 0],
-        [1, 0, 1, 0],
+        [0, 0, 2, 0],
         [1, 0, 2, 0],
-        [0, 0, 3, 0],
-        [0, 0, 4, 0],
-        [4, 4, 4, 4],
-        [0, 0, 1, 0],
+        [1, 0, 4, 0],
+        [1, 0, 4, 1],
+        [0, 1, 4, 4],
+        [0, 0, 0, 0],
       ]
     },
   ];
@@ -270,57 +284,73 @@ class _HardScreenState extends State<HardScreen> {
                               decoration: BoxDecoration(
                                   color: Color(0xFFCA584C),
                                   borderRadius: BorderRadius.circular(15)),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              child: Stack(
                                 children: [
-                                  Text(
-                                    level.toString(),
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.bold),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      'bpm: ${hardLevels[index]['bpm']}',
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 254, 255, 185)),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      hardLevels[index]['stars'] > 0
-                                          ? Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .inversePrimary,
-                                            )
-                                          : Icon(
-                                              Icons.star_border_outlined,
-                                              color: Colors.white,
-                                            ),
-                                      hardLevels[index]['stars'] > 1
-                                          ? Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .inversePrimary,
-                                            )
-                                          : Icon(
-                                              Icons.star_border_outlined,
-                                              color: Colors.white,
-                                            ),
-                                      hardLevels[index]['stars'] > 2
-                                          ? Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .inversePrimary,
-                                            )
-                                          : Icon(
-                                              Icons.star_border_outlined,
-                                              color: Colors.white,
-                                            ),
+                                      Text(
+                                        level.toString(),
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          hardLevels[index]['stars'] > 0
+                                              ? Icon(
+                                                  Icons.star,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .inversePrimary,
+                                                )
+                                              : Icon(
+                                                  Icons.star_border_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                          hardLevels[index]['stars'] > 1
+                                              ? Icon(
+                                                  Icons.star,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .inversePrimary,
+                                                )
+                                              : Icon(
+                                                  Icons.star_border_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                          hardLevels[index]['stars'] > 2
+                                              ? Icon(
+                                                  Icons.star,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .inversePrimary,
+                                                )
+                                              : Icon(
+                                                  Icons.star_border_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                        ],
+                                      )
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

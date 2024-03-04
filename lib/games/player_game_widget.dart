@@ -275,7 +275,12 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
       body: Container(
         child: Column(
           children: [
-            SizedBox(height: 30),
+            Text(
+              'bpm: ${widget.gameBpm.round()}',
+              style: TextStyle(color: Color.fromARGB(255, 254, 255, 185)),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
             Container(
               height: MediaQuery.of(context).size.height / 5,
               child: Row(
