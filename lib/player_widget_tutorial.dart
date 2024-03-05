@@ -616,7 +616,7 @@ class _PlayerWidgetTutorialState extends State<PlayerWidgetTutorial> {
         floatingActionButton: Showcase(
           key: _play,
           description:
-              'После нажимайте эту кнопку и начнется отсчет метронома. Игра началась!',
+              'Затем нажимайте эту кнопку и начнется отсчет метронома. Игра началась!',
           child: FloatingActionButton(
             enableFeedback: false,
             onPressed: () {
