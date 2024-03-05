@@ -450,7 +450,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
                       decoration: BoxDecoration(
-                        border: Border.all(color: colors[0], width: 2),
+                        border: Border.all(color: colors[0], width: 3),
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: notesList[levelsList[0]],
@@ -462,7 +462,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
                       decoration: BoxDecoration(
-                        border: Border.all(color: colors[1], width: 2),
+                        border: Border.all(color: colors[1], width: 3),
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: notesList[levelsList[1]],
@@ -474,7 +474,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
                       decoration: BoxDecoration(
-                        border: Border.all(color: colors[2], width: 2),
+                        border: Border.all(color: colors[2], width: 3),
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: notesList[levelsList[2]],
@@ -486,7 +486,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                       width: MediaQuery.of(context).size.width / 4.5,
                       height: double.infinity,
                       decoration: BoxDecoration(
-                        border: Border.all(color: colors[3], width: 2),
+                        border: Border.all(color: colors[3], width: 3),
                         borderRadius: BorderRadius.circular(7),
                       ),
                       child: notesList[levelsList[3]],
