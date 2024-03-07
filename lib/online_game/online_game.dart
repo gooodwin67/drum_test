@@ -48,7 +48,7 @@ class _OnlineGameWidgetState extends State<OnlineGameWidget> {
           '120': 0,
         },
       };
-      String nameDoc = '$name$id';
+      String nameDoc = '$name$id$city';
 
       await db.collection("users").doc(nameDoc).set(user).onError(
             (e, _) => print("Error writing document: $e"),
@@ -60,7 +60,7 @@ class _OnlineGameWidgetState extends State<OnlineGameWidget> {
 
   sharedInit() async {
     prefs = await SharedPreferences.getInstance();
-    // prefs.remove('name');
+    // prefs.remove('name'); //СБРОС
     // prefs.remove('city');
     // prefs.remove('id');
     // prefs.remove('80');
@@ -97,6 +97,22 @@ class _OnlineGameWidgetState extends State<OnlineGameWidget> {
           'nameId': doc.id,
           'data': doc.data(),
         };
+        if (user['data']['records']['80'] == null) {
+          user['data']['records']['80'] = 0;
+          user['data']['name'] = '---';
+          user['data']['city'] = '---';
+        }
+        if (user['data']['records']['100'] == null) {
+          user['data']['name'] = '---';
+          user['data']['city'] = '---';
+          user['data']['records']['100'] = 0;
+        }
+        if (user['data']['records']['120'] == null) {
+          user['data']['name'] = '---';
+          user['data']['city'] = '---';
+          user['data']['records']['120'] = 0;
+        }
+
         listUsers.add(user);
       }
     });
@@ -115,7 +131,7 @@ class _OnlineGameWidgetState extends State<OnlineGameWidget> {
       return e;
     }).toList();
     setState(() {});
-    await db.collection('users').doc('$name$id').set({
+    await db.collection('users').doc('$name$id$city').set({
       'records': {bpm.toString(): score}
     }, SetOptions(merge: true));
   }
