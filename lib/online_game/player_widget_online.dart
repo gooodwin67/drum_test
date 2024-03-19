@@ -475,12 +475,23 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
           enableFeedback: false,
           onPressed: () {
             plaingNow();
           },
-          child: playing ? Icon(Icons.stop) : Icon(Icons.play_arrow),
-        ), //
+          child: playing
+              ? Icon(
+                  Icons.stop,
+                  color: Colors.white,
+                  size: 40,
+                )
+              : Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                  size: 40,
+                ),
+        ), ////
       ),
     );
   }

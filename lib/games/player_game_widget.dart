@@ -386,11 +386,22 @@ class _PlayerGameWidgetState extends State<PlayerGameWidget> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         enableFeedback: false,
         onPressed: () {
           plaingNow(widget.gameBpm);
         },
-        child: playing ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+        child: playing
+            ? Icon(
+                Icons.stop,
+                color: Colors.white,
+                size: 40,
+              )
+            : Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 40,
+              ),
       ), //
     );
   }

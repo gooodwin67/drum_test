@@ -306,21 +306,21 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                                                     onChanged: (value) {
                                                       setState(() {
                                                         noteActive[0] = value;
-                                                        // if (value == false) {
-                                                        //   levelsList = [
-                                                        //     1,
-                                                        //     1,
-                                                        //     1,
-                                                        //     1
-                                                        //   ];
-                                                        // } else {
-                                                        //   levelsList = [
-                                                        //     0,
-                                                        //     0,
-                                                        //     0,
-                                                        //     0
-                                                        //   ];
-                                                        // }
+                                                        if (value == false) {
+                                                          levelsList = [
+                                                            1,
+                                                            1,
+                                                            1,
+                                                            1
+                                                          ];
+                                                        } else {
+                                                          levelsList = [
+                                                            0,
+                                                            0,
+                                                            0,
+                                                            0
+                                                          ];
+                                                        }
                                                       });
                                                     }),
                                               ),
@@ -548,11 +548,22 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
           enableFeedback: false,
           onPressed: () {
             plaingNow();
           },
-          child: playing ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+          child: playing
+              ? Icon(
+                  Icons.stop,
+                  color: Colors.white,
+                  size: 40,
+                )
+              : Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                  size: 40,
+                ),
         ), //
       ),
     );
