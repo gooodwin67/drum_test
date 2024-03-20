@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,6 +19,7 @@ class PlayerWidget extends StatefulWidget {
 class _PlayerWidgetState extends State<PlayerWidget> {
   Soundpool pool = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
   Soundpool pool2 = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
+  late AudioPlayer player = AudioPlayer();
   int soundId = 0;
   int soundId2 = 0;
   loadSound() async {
@@ -31,6 +33,10 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         .then((ByteData soundData) {
       return pool2.load(soundData);
     });
+    //await player.setVolume(0.7);
+    await player.setPlaybackRate(bpm / 0.8 / 100);
+    await player.play(AssetSource('sounds/gener808.wav'));
+    await player.stop();
   }
 
   bool playing = false;
@@ -45,6 +51,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
 
   int bam = 0;
   int lastBam = 0;
+
+  bool playMusic = false;
 
   Timer? timer;
 
@@ -77,9 +85,16 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   int random = Random().nextInt(5);
 
   List levelsList = [0, 0, 0, 0];
-  void _playTic() {
+  void _playTic() async {
     if (playing == true) {
       lastBam = bam;
+      if ((player.state == PlayerState.completed ||
+              player.state == PlayerState.stopped) &&
+          playMusic) {
+        player.setPlaybackRate(bpm / 0.8 / 100);
+        player.play(AssetSource('sounds/gener808.wav'));
+        player.seek(Duration(milliseconds: 80));
+      }
 
       if (incTic > 0) {
         if (lastBam == levelsList[incTic - 1]) {
@@ -158,7 +173,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     }
   }
 
-  void plaingNow() {
+  void plaingNow() async {
     if (!playing) {
       Wakelock.enable();
       noteCanList = [];
@@ -167,13 +182,14 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           noteCanList.add(i);
         }
       }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
       rate = (60000 / bpm).round();
       timer =
           Timer.periodic(Duration(milliseconds: rate), (Timer t) => _playTic());
       playing = true;
       setState(() {});
     } else {
+      await player.stop();
       Wakelock.disable();
       noteCanList[0] == 0
           ? levelsList = [0, 0, 0, 0]
@@ -192,12 +208,14 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   void initState() {
     loadSound();
     super.initState();
+    player = AudioPlayer();
   }
 
   @override
   void dispose() {
     timer?.cancel();
     super.dispose();
+    player.dispose();
   }
 
   @override
@@ -284,7 +302,29 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 15),
+                            Container(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 25,
+                                    height: 10,
+                                    child: Checkbox(
+                                        value: playMusic,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            playMusic = value!;
+                                          });
+                                        }),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Container(
+                                    child: Text('Играть музыку (beta)'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 25),
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -550,7 +590,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue,
           enableFeedback: false,
-          onPressed: () {
+          onPressed: () async {
             plaingNow();
           },
           child: playing
