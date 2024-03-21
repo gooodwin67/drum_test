@@ -341,141 +341,166 @@ class _PlayerWidgetTutorialState extends State<PlayerWidgetTutorial> {
                                     key: _notes,
                                     description:
                                         'Выберите, какие ноты будут участвовать',
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 25,
-                                                  height: 10,
-                                                  child: Checkbox(
-                                                      value: noteActive[0],
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          noteActive[0] = value;
-                                                          // if (value == false) {
-                                                          //   levelsList = [
-                                                          //     1,
-                                                          //     1,
-                                                          //     1,
-                                                          //     1
-                                                          //   ];
-                                                          // } else {
-                                                          //   levelsList = [
-                                                          //     0,
-                                                          //     0,
-                                                          //     0,
-                                                          //     0
-                                                          //   ];
-                                                          // }
-                                                        });
-                                                      }),
-                                                ),
-                                                Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  child: notesList[0],
-                                                ),
-                                              ],
-                                            ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          height: 50,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: noteActive[0]
+                                                ? Color.fromARGB(
+                                                    255, 218, 190, 159)
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                                color: Color.fromARGB(
+                                                    255, 175, 175, 175)),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                           ),
-                                          SizedBox(width: 5),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 25,
-                                                  height: 10,
-                                                  child: Checkbox(
-                                                      value: noteActive[1],
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          noteActive[1] = value;
-                                                        });
-                                                      }),
-                                                ),
-                                                Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  child: notesList[1],
-                                                ),
-                                              ],
-                                            ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                noteActive[0]
+                                                    ? noteActive[0] = false
+                                                    : noteActive[0] = true;
+                                                if (noteActive[0] == false) {
+                                                  levelsList = [1, 1, 1, 1];
+                                                } else {
+                                                  levelsList = [0, 0, 0, 0];
+                                                }
+                                              });
+                                            },
+                                            child: notesList[0],
                                           ),
-                                          SizedBox(width: 10),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 25,
-                                                  height: 10,
-                                                  child: Checkbox(
-                                                      value: noteActive[2],
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          noteActive[2] = value;
-                                                        });
-                                                      }),
-                                                ),
-                                                Container(
-                                                  width: 25,
-                                                  height: 30,
-                                                  child: notesList[2],
-                                                ),
-                                              ],
-                                            ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          height: 50,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: noteActive[1]
+                                                ? Color.fromARGB(
+                                                    255, 218, 190, 159)
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                                color: Color.fromARGB(
+                                                    255, 175, 175, 175)),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                           ),
-                                          SizedBox(width: 15),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 25,
-                                                  height: 10,
-                                                  child: Checkbox(
-                                                      value: noteActive[3],
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          noteActive[3] = value;
-                                                        });
-                                                      }),
-                                                ),
-                                                Container(
-                                                  width: 40,
-                                                  height: 30,
-                                                  child: notesList[3],
-                                                ),
-                                              ],
-                                            ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                noteActive[1]
+                                                    ? noteActive[1] = false
+                                                    : noteActive[1] = true;
+                                              });
+                                            },
+                                            child: notesList[1],
                                           ),
-                                          SizedBox(width: 10),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 30,
-                                                  height: 10,
-                                                  child: Checkbox(
-                                                      value: noteActive[4],
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          noteActive[4] = value;
-                                                        });
-                                                      }),
-                                                ),
-                                                Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  child: notesList[4],
-                                                ),
-                                              ],
-                                            ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          height: 50,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: noteActive[2]
+                                                ? Color.fromARGB(
+                                                    255, 218, 190, 159)
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                                color: Color.fromARGB(
+                                                    255, 175, 175, 175)),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                           ),
-                                        ],
-                                      ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                noteActive[2]
+                                                    ? noteActive[2] = false
+                                                    : noteActive[2] = true;
+                                              });
+                                            },
+                                            child: notesList[2],
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          height: 50,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: noteActive[3]
+                                                ? Color.fromARGB(
+                                                    255, 218, 190, 159)
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                                color: Color.fromARGB(
+                                                    255, 175, 175, 175)),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                          ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                noteActive[3]
+                                                    ? noteActive[3] = false
+                                                    : noteActive[3] = true;
+                                              });
+                                            },
+                                            child: notesList[3],
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              6,
+                                          height: 50,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 5),
+                                          decoration: BoxDecoration(
+                                            color: noteActive[4]
+                                                ? Color.fromARGB(
+                                                    255, 218, 190, 159)
+                                                : Colors.transparent,
+                                            border: Border.all(
+                                                color: Color.fromARGB(
+                                                    255, 175, 175, 175)),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                          ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                noteActive[4]
+                                                    ? noteActive[4] = false
+                                                    : noteActive[4] = true;
+                                              });
+                                            },
+                                            child: notesList[4],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

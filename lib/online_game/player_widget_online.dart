@@ -85,7 +85,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
   ];
 
   List noteCanList = [0, 1, 2, 3, 4];
-  List noteActive = [true, true, true, true, true];
+  List noteActive = [true, true, true, true, false];
 
   int random = Random().nextInt(5);
 
@@ -551,13 +551,19 @@ class TapLine extends StatelessWidget {
 
 showAlertDialog(BuildContext context, score, newRec) {
   Widget okButton = TextButton(
-    child: Text("Еще раз"),
+    child: Text(
+      "Еще раз",
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+    ),
     onPressed: () {
       Navigator.pop(context);
     },
   );
   Widget backButton = TextButton(
-    child: Text("Назад"),
+    child: Text(
+      "Назад",
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+    ),
     onPressed: () {
       Navigator.pop(context);
       Navigator.pop(context);
@@ -565,23 +571,9 @@ showAlertDialog(BuildContext context, score, newRec) {
   );
 
   AlertDialog alert = AlertDialog(
-    title: Text(
-      "Попробуй еще раз",
-      style: TextStyle(fontSize: 30),
-      textAlign: TextAlign.center,
-    ),
     content: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        !newRec
-            ? Container()
-            : Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Text(
-                  'Ты побил свой рекорд',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
         Text(
           "Твой счет",
           style: TextStyle(fontSize: 20),
@@ -589,8 +581,18 @@ showAlertDialog(BuildContext context, score, newRec) {
         SizedBox(height: 10),
         Text(
           score.toString(),
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 50),
         ),
+        SizedBox(height: 20),
+        !newRec
+            ? Container()
+            : Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Text(
+                  'Ты побил свой рекорд!',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
       ],
     ),
     actions: [
