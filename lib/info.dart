@@ -29,6 +29,8 @@ class InfoScreen extends StatelessWidget {
             children: [
               Text(
                   'Добро пожаловать в Rhythm Challenge - вашего надежного спутника в мире тренировки ритма и музыкальной координации! Если вы мечтаете стать мастером ритма, наше приложение поможет вам достичь этой цели. '),
+              SizedBox(height: 5),
+              Text('Приложение разработано на Flutter.'),
               SizedBox(height: 20),
               Text(
                 'Разработчик',
