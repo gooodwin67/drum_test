@@ -85,7 +85,7 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
   ];
 
   List noteCanList = [0, 1, 2, 3, 4];
-  List noteActive = [true, true, true, true, false];
+  List noteActive = [true, true, true, true, true];
 
   int random = Random().nextInt(5);
 
@@ -315,6 +315,22 @@ class _PlayerWidgetOnlineState extends State<PlayerWidgetOnline> {
                                       loadRec();
                                       setState(() {
                                         bpm = value;
+                                        if (value.round() == 80)
+                                          noteActive = [
+                                            true,
+                                            true,
+                                            true,
+                                            true,
+                                            true
+                                          ];
+                                        else
+                                          noteActive = [
+                                            true,
+                                            true,
+                                            true,
+                                            true,
+                                            false
+                                          ];
                                       });
                                     },
                                   ),
